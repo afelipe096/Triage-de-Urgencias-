@@ -18,6 +18,16 @@ public class AdministracionPersonal {
         medicosRegistrados.remove(medico);
     }
 
+    // Método para actualizar un médico existente
+    public static void actualizarMedico(Medico medicoActualizado) {
+        for (int i = 0; i < medicosRegistrados.size(); i++) {
+            if (medicosRegistrados.get(i).getId() == medicoActualizado.getId()) {
+                medicosRegistrados.set(i, medicoActualizado);
+                break;
+            }
+        }
+    }
+
     // Método para registrar un nuevo enfermero
     public static void registrarEnfermero(Enfermero enfermero) {
         enfermerosRegistrados.add(enfermero);
@@ -26,6 +36,16 @@ public class AdministracionPersonal {
     // Método para eliminar un enfermero existente
     public static void eliminarEnfermero(Enfermero enfermero) {
         enfermerosRegistrados.remove(enfermero);
+    }
+
+    // Método para actualizar un enfermero existente
+    public static void actualizarEnfermero(Enfermero enfermeroActualizado) {
+        for (int i = 0; i < enfermerosRegistrados.size(); i++) {
+            if (enfermerosRegistrados.get(i).getId() == enfermeroActualizado.getId()) {
+                enfermerosRegistrados.set(i, enfermeroActualizado);
+                break;
+            }
+        }
     }
 
     // Método para obtener la lista de médicos registrados

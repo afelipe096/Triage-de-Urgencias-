@@ -1,5 +1,8 @@
 import java.util.*;
 
+/**
+ * Esta clase representa el sistema de triage, que se encarga de clasificar a los pacientes según la urgencia de sus enfermedades.
+ */
 public class Triage {
     private Map<Integer, String> catalogoEnfermedades;
     private Map<Integer, Integer> nivelesUrgencia;
@@ -7,6 +10,7 @@ public class Triage {
     private int nivelUrgencia;
     private List<String> enfermedades;
 
+    // Constructor de la clase Triage
     public Triage() {
         catalogoEnfermedades = new HashMap<>();
         nivelesUrgencia = new HashMap<>();
@@ -17,6 +21,7 @@ public class Triage {
         agregarEnfermedades();
     }
 
+    // Método para agregar enfermedades al catálogo
     private void agregarEnfermedades() {
         // Nivel 1 (Emergencia)
         agregarEnfermedad(1, "Infarto", 1);
@@ -55,11 +60,13 @@ public class Triage {
         agregarEnfermedad(30, "Falta de sueño", 3);
     }
 
+    // Método para agregar una enfermedad al catálogo
     private void agregarEnfermedad(int numero, String enfermedad, int nivel) {
         catalogoEnfermedades.put(numero, enfermedad);
         nivelesUrgencia.put(numero, nivel);
     }
 
+    // Método para mostrar el catálogo de enfermedades
     public void mostrarCatalogo() {
         System.out.println("\n📋 Catálogo de Enfermedades:");
         for (int i = 1; i <= catalogoEnfermedades.size(); i++) {
@@ -67,6 +74,7 @@ public class Triage {
         }
     }
 
+    // Método para agregar una enfermedad al paciente
     public void agregarEnfermedad(int numero) {
         if (catalogoEnfermedades.containsKey(numero)) {
             enfermedadesPaciente.add(numero);
@@ -82,6 +90,7 @@ public class Triage {
         }
     }
 
+    // Método para eliminar una enfermedad del paciente
     public void eliminarEnfermedad(int num) {
         String enfermedad = obtenerEnfermedadPorNumero(num);
         if (enfermedad != null && enfermedades.contains(enfermedad)) {
@@ -92,6 +101,7 @@ public class Triage {
         }
     }
 
+    // Método para obtener una enfermedad por su número
     private String obtenerEnfermedadPorNumero(int num) {
         switch (num) {
             case 1:
@@ -110,6 +120,7 @@ public class Triage {
         }
     }
 
+    // Método para evaluar el estado del paciente basado en las enfermedades asignadas
     public void evaluarPaciente(Paciente paciente) {
         System.out.println("\n🏥 Diagnóstico del Paciente:");
         System.out.println("Nivel de urgencia asignado: " + nivelUrgencia);

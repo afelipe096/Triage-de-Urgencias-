@@ -1,5 +1,8 @@
 import java.util.Scanner;
 
+/**
+ * Clase abstracta que representa a una persona.
+ */
 public abstract class Persona {
     private int id;
     private String nombre;
@@ -7,6 +10,7 @@ public abstract class Persona {
     private String direccion;
     private String correo;
 
+    // Constructor de la clase Persona
     public Persona(int id, String nombre, String telefono, String direccion, String correo) {
         this.id = id;
         this.nombre = nombre;
@@ -15,6 +19,7 @@ public abstract class Persona {
         this.correo = correo;
     }
 
+    // Métodos getter y setter para los atributos de la clase
     public int getId() {
         return id;
     }
@@ -55,6 +60,7 @@ public abstract class Persona {
         this.correo = correo;
     }
 
+    // Método abstracto para mostrar la información de la persona
     public abstract void mostrarInfo();
 
     // Métodos de validación antes de la creación del objeto

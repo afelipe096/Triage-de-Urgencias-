@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatosPredeterminados {
+    private static List<Paciente> pacientes = new ArrayList<>();
 
     // Método para cargar una lista de médicos predeterminados
     public static List<Medico> cargarMedicos() {
@@ -31,7 +32,6 @@ public class DatosPredeterminados {
 
     // Método para cargar una lista de pacientes predeterminados
     public static List<Paciente> crearPacientes() {
-        List<Paciente> pacientes = new ArrayList<>();
         pacientes.add(new Paciente(1, "Pedro Sánchez", "111222333", "Calle 3", "pedro.sanchez@correo.com", null, null, null));
         pacientes.add(new Paciente(2, "Laura Martínez", "444555666", "Calle 4", "laura.martinez@correo.com", null, null, null));
         pacientes.add(new Paciente(3, "Carlos Gómez", "777888999", "Calle 9", "carlos.gomez@correo.com", null, null, null));
@@ -39,6 +39,26 @@ public class DatosPredeterminados {
         pacientes.add(new Paciente(5, "Marta Díaz", "555666777", "Calle 11", "marta.diaz@correo.com", null, null, null));
         pacientes.add(new Paciente(6, "Jorge Ramírez", "888999000", "Calle 12", "jorge.ramirez@correo.com", null, null, null));
         // Agregar más pacientes según sea necesario
+        return pacientes;
+    }
+
+    // Método para eliminar un paciente existente
+    public static void eliminarPaciente(Paciente paciente) {
+        pacientes.remove(paciente);
+    }
+
+    // Método para actualizar un paciente existente
+    public static void actualizarPaciente(Paciente pacienteActualizado) {
+        for (int i = 0; i < pacientes.size(); i++) {
+            if (pacientes.get(i).getId() == pacienteActualizado.getId()) {
+                pacientes.set(i, pacienteActualizado);
+                break;
+            }
+        }
+    }
+
+    // Método para obtener la lista de pacientes registrados
+    public static List<Paciente> getPacientesRegistrados() {
         return pacientes;
     }
 }

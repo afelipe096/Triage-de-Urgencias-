@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Esta clase representa a un paciente y contiene métodos para manejar las operaciones relacionadas con los pacientes.
+ */
 public class Paciente extends Persona {
     private List<String> sintomas;
     private int nivelTriage;
@@ -9,6 +12,7 @@ public class Paciente extends Persona {
     private Integer numeroCama; // Puede ser null si el paciente no necesita cama
     private HistorialMedico historial; // ✅ Nuevo atributo
 
+    // Constructor de la clase Paciente
     public Paciente(int id, String nombre, String telefono, String direccion, String correo, 
                     Medico medicoAsignado, Enfermero enfermeroAsignado, Integer numeroCama) {
         super(id, nombre, telefono, direccion, correo);
@@ -20,6 +24,7 @@ public class Paciente extends Persona {
         this.historial = new HistorialMedico(id, this); // ✅ Se inicializa el historial
     }
 
+    // Métodos getter y setter para los atributos de la clase
     public List<String> getSintomas() {
         return sintomas;
     }
@@ -73,6 +78,7 @@ public class Paciente extends Persona {
         return historial;
     }
 
+    // Método para mostrar la información del paciente
     @Override
     public void mostrarInfo() {
         System.out.println("ID: " + getId());
