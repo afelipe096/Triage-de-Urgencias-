@@ -1,6 +1,10 @@
 import java.util.Scanner;
 
 public class MenuPrincipal {
+    
+    public static void main(String[] args) {
+        mostrarMenuPrincipal();
+    }
 
     public static void mostrarMenuPrincipal() {
         Scanner scanner = new Scanner(System.in);
@@ -50,7 +54,15 @@ public class MenuPrincipal {
                     enfermero.registrarPaciente();
                     break;
                 case 2:
-                    // Aquí puedes implementar la lógica para asignar triage
+                    System.out.print("Ingrese el ID del paciente: ");
+                    int pacienteId = scanner.nextInt();
+                    Paciente paciente = buscarPacientePorId(pacienteId);
+                    if (paciente != null) {
+                        enfermero.asignarTriage(paciente);
+                    } else {
+                        System.out.println("Paciente no encontrado. Registrando nuevo paciente...");
+                        enfermero.registrarPaciente();
+                    }
                     break;
                 default:
                     System.out.println("Opción no válida.");
@@ -74,7 +86,15 @@ public class MenuPrincipal {
             int opcion = scanner.nextInt();
             switch (opcion) {
                 case 1:
-                    // Aquí puedes implementar la lógica para atender a un paciente
+                    System.out.print("Ingrese el ID del paciente: ");
+                    int pacienteId = scanner.nextInt();
+                    Paciente paciente = buscarPacientePorId(pacienteId);
+                    if (paciente != null) {
+                        medico.atenderPaciente(paciente);
+                    } else {
+                        System.out.println("Paciente no encontrado. Registrando nuevo paciente...");
+                        registrarPaciente();
+                    }
                     break;
                 default:
                     System.out.println("Opción no válida.");
@@ -199,5 +219,33 @@ public class MenuPrincipal {
             }
         }
         return null;
+    }
+
+    private static Paciente buscarPacientePorId(int id) {
+        for (Paciente paciente : DatosPredeterminados.crearPacientes()) {
+            if (paciente.getId() == id) {
+                return paciente;
+            }
+        }
+        return null;
+    }
+
+    private static void registrarPaciente() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\n--- Registrar Paciente ---");
+        System.out.print("ID: ");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // Consumir el salto de línea
+        System.out.print("Nombre: ");
+        String nombre = scanner.nextLine();
+        System.out.print("Teléfono: ");
+        String telefono = scanner.nextLine();
+        System.out.print("Dirección: ");
+        String direccion = scanner.nextLine();
+        System.out.print("Correo: ");
+        String correo = scanner.nextLine();
+        Paciente paciente = new Paciente(id, nombre, telefono, direccion, correo, null, null, null);
+        System.out.println("\n✅ Paciente registrado exitosamente:");
+        paciente.mostrarInfo();
     }
 }

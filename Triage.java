@@ -5,12 +5,14 @@ public class Triage {
     private Map<Integer, Integer> nivelesUrgencia;
     private List<Integer> enfermedadesPaciente;
     private int nivelUrgencia;
+    private List<String> enfermedades;
 
     public Triage() {
         catalogoEnfermedades = new HashMap<>();
         nivelesUrgencia = new HashMap<>();
         enfermedadesPaciente = new ArrayList<>();
         nivelUrgencia = 3; // Inicialmente el nivel más bajo
+        this.enfermedades = new ArrayList<>();
 
         agregarEnfermedades();
     }
@@ -80,6 +82,34 @@ public class Triage {
         }
     }
 
+    public void eliminarEnfermedad(int num) {
+        String enfermedad = obtenerEnfermedadPorNumero(num);
+        if (enfermedad != null && enfermedades.contains(enfermedad)) {
+            enfermedades.remove(enfermedad);
+            System.out.println("Enfermedad eliminada: " + enfermedad);
+        } else {
+            System.out.println("Enfermedad no encontrada.");
+        }
+    }
+
+    private String obtenerEnfermedadPorNumero(int num) {
+        switch (num) {
+            case 1:
+                return "Gripe";
+            case 2:
+                return "Neumonía";
+            case 3:
+                return "Bronquitis";
+            case 4:
+                return "Asma";
+            case 5:
+                return "COVID-19";
+            // Agregar más casos según sea necesario
+            default:
+                return null;
+        }
+    }
+
     public void evaluarPaciente(Paciente paciente) {
         System.out.println("\n🏥 Diagnóstico del Paciente:");
         System.out.println("Nivel de urgencia asignado: " + nivelUrgencia);
@@ -89,6 +119,15 @@ public class Triage {
 
         for (int numero : enfermedadesPaciente) {
             System.out.println("- " + catalogoEnfermedades.get(numero) + " (Nivel " + nivelesUrgencia.get(numero) + ")");
+        }
+
+        System.out.println("\n--- Evaluación del Paciente ---");
+        if (enfermedades.isEmpty()) {
+            System.out.println("No se han asignado enfermedades.");
+        } else {
+            System.out.println("Enfermedades asignadas: " + String.join(", ", enfermedades));
+            // Evaluar el estado del paciente basado en las enfermedades asignadas
+            // Aquí puedes agregar la lógica para evaluar el estado del paciente
         }
     }
 }

@@ -4,12 +4,14 @@ public class Enfermero extends Persona {
     private String especialidad;
     private String turno;
 
+    // Constructor de la clase Enfermero
     public Enfermero(int id, String nombre, String telefono, String direccion, String correo, String especialidad, String turno) {
         super(id, nombre, telefono, direccion, correo);
         this.especialidad = especialidad;
         this.turno = turno;
     }
 
+    // Métodos getter y setter para los atributos de la clase
     public String getEspecialidad() {
         return especialidad;
     }
@@ -26,6 +28,7 @@ public class Enfermero extends Persona {
         this.turno = turno;
     }
 
+    // Método para mostrar la información del enfermero
     @Override
     public void mostrarInfo() {
         System.out.println("ID: " + getId());
@@ -38,6 +41,7 @@ public class Enfermero extends Persona {
         System.out.println("Turno: " + turno);
     }
 
+    // Método para registrar un nuevo paciente
     public void registrarPaciente() {
         System.out.println("\n🩺 Enfermero " + getNombre() + " registrando un paciente...");
         int id = Persona.solicitarId();
@@ -57,6 +61,7 @@ public class Enfermero extends Persona {
         asignarTriage(paciente);
     }
 
+    // Método para asignar triage a un paciente
     public void asignarTriage(Paciente paciente) {
         Scanner scanner = new Scanner(System.in);
         Triage triage = new Triage();

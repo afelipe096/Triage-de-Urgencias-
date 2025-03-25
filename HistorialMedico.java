@@ -29,7 +29,11 @@ public class HistorialMedico {
         if (registros.isEmpty()) {
             return "No hay registros en el historial médico.";
         }
-        return String.join("\n", registros) + "\nÚltima actualización: " + fechaActualizacion;
+        StringBuilder historial = new StringBuilder();
+        for (String registro : registros) {
+            historial.append(registro).append("\n");
+        }
+        return historial.toString() + "Última actualización: " + fechaActualizacion;
     }
 
     public int getPacienteId() {

@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 public abstract class Persona {
     private int id;
@@ -61,62 +60,31 @@ public abstract class Persona {
     // Métodos de validación antes de la creación del objeto
     public static int solicitarId() {
         Scanner scanner = new Scanner(System.in);
-        int id;
-        while (true) {
-            System.out.print("Ingrese un ID: ");
-            if (scanner.hasNextInt()) {
-                id = scanner.nextInt();
-                if (id > 0) return id;
-                else System.out.println("Error: El ID debe ser mayor que 0.");
-            } else {
-                System.out.println("Error: Debe ingresar un número.");
-                scanner.next(); // Limpiar entrada inválida
-            }
-        }
+        System.out.print("Ingrese el ID: ");
+        return scanner.nextInt();
     }
 
     public static String solicitarNombre() {
         Scanner scanner = new Scanner(System.in);
-        String nombre;
-        while (true) {
-            System.out.print("Ingrese el nombre: ");
-            nombre = scanner.nextLine().trim();
-            if (nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) return nombre;
-            else System.out.println("Error: El nombre solo debe contener letras y espacios.");
-        }
+        System.out.print("Ingrese el nombre: ");
+        return scanner.nextLine();
     }
 
     public static String solicitarTelefono() {
         Scanner scanner = new Scanner(System.in);
-        String telefono;
-        while (true) {
-            System.out.print("Ingrese el teléfono (10 dígitos): ");
-            telefono = scanner.nextLine().trim();
-            if (telefono.matches("\\d{10}")) return telefono;
-            else System.out.println("Error: El teléfono debe tener exactamente 10 dígitos numéricos.");
-        }
+        System.out.print("Ingrese el teléfono: ");
+        return scanner.nextLine();
     }
 
     public static String solicitarDireccion() {
         Scanner scanner = new Scanner(System.in);
-        String direccion;
-        while (true) {
-            System.out.print("Ingrese la dirección: ");
-            direccion = scanner.nextLine().trim();
-            if (!direccion.isEmpty()) return direccion;
-            else System.out.println("Error: La dirección no puede estar vacía.");
-        }
+        System.out.print("Ingrese la dirección: ");
+        return scanner.nextLine();
     }
 
     public static String solicitarCorreo() {
         Scanner scanner = new Scanner(System.in);
-        String correo;
-        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-        while (true) {
-            System.out.print("Ingrese el correo electrónico: ");
-            correo = scanner.nextLine().trim();
-            if (Pattern.matches(emailRegex, correo)) return correo;
-            else System.out.println("Error: El correo electrónico no es válido.");
-        }
+        System.out.print("Ingrese el correo: ");
+        return scanner.nextLine();
     }
 }
