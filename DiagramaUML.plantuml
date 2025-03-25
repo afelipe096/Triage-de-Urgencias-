@@ -1,0 +1,128 @@
+@startuml
+!define RECTANGLE class
+
+RECTANGLE Persona {
+    - int id
+    - String nombre
+    - String telefono
+    - String direccion
+    - String correo
+    + mostrarInfo()
+    + static int solicitarId()
+    + static String solicitarNombre()
+    + static String solicitarTelefono()
+    + static String solicitarDireccion()
+    + static String solicitarCorreo()
+}
+
+RECTANGLE Paciente {
+    - List<String> sintomas
+    - int nivelTriage
+    - Medico medicoAsignado
+    - Enfermero enfermeroAsignado
+    - Integer numeroCama
+    - HistorialMedico historial
+    + agregarSintoma(String sintoma)
+    + getHistorial()
+    + mostrarInfo()
+}
+
+RECTANGLE Medico {
+    - String especialidad
+    + atenderPaciente(Paciente paciente)
+    + continuarConsulta(Paciente paciente)
+    + mostrarInfo()
+}
+
+RECTANGLE Enfermero {
+    - String especialidad
+    - String turno
+    + registrarPaciente()
+    + asignarTriage(Paciente paciente)
+    + mostrarInfo()
+}
+
+RECTANGLE HistorialMedico {
+    - int pacienteId
+    - Paciente paciente
+    - List<String> registros
+    - Date fechaActualizacion
+    + agregarRegistro(String registro)
+    + obtenerHistorial()
+}
+
+RECTANGLE Triage {
+    - Map<Integer, String> catalogoEnfermedades
+    - Map<Integer, Integer> nivelesUrgencia
+    - List<Integer> enfermedadesPaciente
+    - int nivelUrgencia
+    - List<String> enfermedades
+    + mostrarCatalogo()
+    + agregarEnfermedad(int numero)
+    + eliminarEnfermedad(int num)
+    + evaluarPaciente(Paciente paciente)
+}
+
+RECTANGLE AdministracionPersonal {
+    - static List<Medico> medicosRegistrados
+    - static List<Enfermero> enfermerosRegistrados
+    + static registrarMedico(Medico medico)
+    + static eliminarMedico(Medico medico)
+    + static actualizarMedico(Medico medicoActualizado)
+    + static registrarEnfermero(Enfermero enfermero)
+    + static eliminarEnfermero(Enfermero enfermero)
+    + static actualizarEnfermero(Enfermero enfermeroActualizado)
+    + static List<Medico> getMedicosRegistrados()
+    + static List<Enfermero> getEnfermerosRegistrados()
+}
+
+RECTANGLE DatosPredeterminados {
+    - static List<Paciente> pacientes
+    + static List<Medico> cargarMedicos()
+    + static List<Enfermero> crearEnfermeros()
+    + static List<Paciente> crearPacientes()
+    + static eliminarPaciente(Paciente paciente)
+    + static actualizarPaciente(Paciente pacienteActualizado)
+    + static List<Paciente> getPacientesRegistrados()
+}
+
+RECTANGLE MenuPrincipal {
+    - static List<Medico> medicos
+    - static List<Enfermero> enfermeros
+    - static List<Paciente> pacientes
+    + static void mostrarMenuPrincipal()
+    + static void menuEnfermero()
+    + static void menuMedico()
+    + static void menuJefeDePersonal()
+    + static void registrarMedico()
+    + static void eliminarMedico()
+    + static void actualizarMedico()
+    + static void registrarEnfermero()
+    + static void eliminarEnfermero()
+    + static void actualizarEnfermero()
+    + static Medico buscarMedicoPorId(int id)
+    + static Enfermero buscarEnfermeroPorId(int id)
+    + static Paciente buscarPacientePorId(int id)
+    + static void registrarPaciente()
+    + static void actualizarPaciente(Paciente paciente)
+}
+
+RECTANGLE Main {
+    + static void main(String[] args)
+}
+
+Persona <|-- Paciente
+Persona <|-- Medico
+Persona <|-- Enfermero
+Paciente --> HistorialMedico
+Paciente --> Medico
+Paciente --> Enfermero
+Medico --> Triage
+Enfermero --> Triage
+MenuPrincipal --> Medico
+MenuPrincipal --> Enfermero
+MenuPrincipal --> Paciente
+MenuPrincipal --> AdministracionPersonal
+MenuPrincipal --> DatosPredeterminados
+Main --> MenuPrincipal
+@enduml

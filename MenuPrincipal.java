@@ -123,6 +123,7 @@ public class MenuPrincipal {
         if (medico != null) {
             System.out.println("Bienvenido, " + medico.getNombre());
             System.out.println("1. Atender Paciente");
+            System.out.println("2. Continuar Consulta");
             System.out.print("Seleccione una opción: ");
             int opcion = scanner.nextInt();
             switch (opcion) {
@@ -135,6 +136,16 @@ public class MenuPrincipal {
                     } else {
                         System.out.println("Paciente no encontrado. Registrando nuevo paciente...");
                         registrarPaciente();
+                    }
+                    break;
+                case 2:
+                    System.out.print("Ingrese el ID del paciente: ");
+                    int pacienteIdContinuar = scanner.nextInt();
+                    Paciente pacienteContinuar = buscarPacientePorId(pacienteIdContinuar);
+                    if (pacienteContinuar != null) {
+                        medico.continuarConsulta(pacienteContinuar);
+                    } else {
+                        System.out.println("Paciente no encontrado.");
                     }
                     break;
                 default:

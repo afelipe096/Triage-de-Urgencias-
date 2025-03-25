@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 /**
  * Esta clase representa a un médico y contiene métodos para manejar las operaciones relacionadas con los médicos.
  */
@@ -36,5 +38,33 @@ public class Medico extends Persona {
         System.out.println("\n🩺 " + getNombre() + " está atendiendo a " + paciente.getNombre());
         // Agregar un registro al historial médico del paciente
         paciente.getHistorial().agregarRegistro("Atendido por " + getNombre() + " (" + especialidad + ")");
+        
+        // Continuar con la consulta del paciente utilizando el sistema de triage
+        continuarConsulta(paciente);
+    }
+
+    // Método para continuar la consulta de un paciente utilizando el sistema de triage
+    public void continuarConsulta(Paciente paciente) {
+        Scanner scanner = new Scanner(System.in);
+        Triage triage = new Triage();
+        triage.mostrarCatalogo();
+
+        System.out.println("\n🩺 " + getNombre() + " asignando triage al paciente...");
+        
+        while (true) {
+            System.out.print("Ingrese el número de la enfermedad (0 para finalizar): ");
+            int num = scanner.nextInt();
+            if (num == 0) break; // Salir cuando el médico termine de asignar enfermedades
+            
+            triage.agregarEnfermedad(num);
+        }
+
+        // Evaluar y mostrar el diagnóstico final
+        triage.evaluarPaciente(paciente);
+        paciente.getHistorial().agregarRegistro("Diagnóstico realizado por " + getNombre() + " (" + especialidad + ")");
+        
+        // Mostrar el historial clínico actualizado
+        System.out.println("\n📝 Historial Clínico Actualizado:");
+        System.out.println(paciente.getHistorial().obtenerHistorial());
     }
 }
