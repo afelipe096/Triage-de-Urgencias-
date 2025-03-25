@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class MenuPrincipal {
 
-    public static void main(String[] args) {
+    public static void mostrarMenuPrincipal() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("\n--- Menú Principal ---");
@@ -32,7 +32,7 @@ public class MenuPrincipal {
         }
     }
 
-    private static void menuEnfermero() {
+    static void menuEnfermero() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("\n--- Menú Enfermero ---");
         System.out.print("Ingrese su ID: ");
@@ -60,7 +60,7 @@ public class MenuPrincipal {
         }
     }
 
-    private static void menuMedico() {
+    static void menuMedico() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("\n--- Menú Médico ---");
         System.out.print("Ingrese su ID: ");
@@ -84,7 +84,7 @@ public class MenuPrincipal {
         }
     }
 
-    private static void menuJefeDePersonal() {
+    static void menuJefeDePersonal() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("\n--- Menú Jefe de Personal ---");
         System.out.println("1. Registrar Médico");
