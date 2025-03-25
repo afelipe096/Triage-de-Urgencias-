@@ -1,8 +1,17 @@
+import java.util.List;
 import java.util.Scanner;
 
 public class MenuPrincipal {
-    
+    private static List<Medico> medicos;
+    private static List<Enfermero> enfermeros;
+    private static List<Paciente> pacientes;
+
     public static void main(String[] args) {
+        // Cargar datos predeterminados
+        medicos = DatosPredeterminados.cargarMedicos();
+        enfermeros = DatosPredeterminados.crearEnfermeros();
+        pacientes = DatosPredeterminados.crearPacientes();
+        
         mostrarMenuPrincipal();
     }
 
@@ -74,20 +83,20 @@ public class MenuPrincipal {
                     break;
                 case 3:
                     System.out.print("Ingrese el ID del paciente a actualizar: ");
-                    pacienteId = scanner.nextInt();
-                    paciente = buscarPacientePorId(pacienteId);
-                    if (paciente != null) {
-                        actualizarPaciente(paciente);
+                    int pacienteIdActualizar = scanner.nextInt();
+                    Paciente pacienteActualizar = buscarPacientePorId(pacienteIdActualizar);
+                    if (pacienteActualizar != null) {
+                        actualizarPaciente(pacienteActualizar);
                     } else {
                         System.out.println("Paciente no encontrado.");
                     }
                     break;
                 case 4:
                     System.out.print("Ingrese el ID del paciente a eliminar: ");
-                    pacienteId = scanner.nextInt();
-                    paciente = buscarPacientePorId(pacienteId);
-                    if (paciente != null) {
-                        DatosPredeterminados.eliminarPaciente(paciente);
+                    int pacienteIdEliminar = scanner.nextInt();
+                    Paciente pacienteEliminar = buscarPacientePorId(pacienteIdEliminar);
+                    if (pacienteEliminar != null) {
+                        DatosPredeterminados.eliminarPaciente(pacienteEliminar);
                         System.out.println("Paciente eliminado exitosamente.");
                     } else {
                         System.out.println("Paciente no encontrado.");
@@ -333,7 +342,7 @@ public class MenuPrincipal {
      * @return El médico encontrado o null si no se encuentra.
      */
     private static Medico buscarMedicoPorId(int id) {
-        for (Medico medico : AdministracionPersonal.getMedicosRegistrados()) {
+        for (Medico medico : medicos) {
             if (medico.getId() == id) {
                 return medico;
             }
@@ -347,7 +356,7 @@ public class MenuPrincipal {
      * @return El enfermero encontrado o null si no se encuentra.
      */
     private static Enfermero buscarEnfermeroPorId(int id) {
-        for (Enfermero enfermero : AdministracionPersonal.getEnfermerosRegistrados()) {
+        for (Enfermero enfermero : enfermeros) {
             if (enfermero.getId() == id) {
                 return enfermero;
             }
@@ -361,7 +370,7 @@ public class MenuPrincipal {
      * @return El paciente encontrado o null si no se encuentra.
      */
     private static Paciente buscarPacientePorId(int id) {
-        for (Paciente paciente : DatosPredeterminados.crearPacientes()) {
+        for (Paciente paciente : pacientes) {
             if (paciente.getId() == id) {
                 return paciente;
             }
