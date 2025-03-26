@@ -25,6 +25,7 @@ public class MenuPrincipal {
             System.out.println("1. Enfermero");
             System.out.println("2. Médico");
             System.out.println("3. Jefe de Personal");
+            System.out.println("4. Hospitalización");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
             int opcion = scanner.nextInt();
@@ -38,6 +39,9 @@ public class MenuPrincipal {
                     break;
                 case 3:
                     menuJefeDePersonal();
+                    break;
+                case 4:
+                    menuHospitalizacion();
                     break;
                 case 0:
                     System.out.println("Saliendo del sistema...");
@@ -191,6 +195,76 @@ public class MenuPrincipal {
                 break;
             default:
                 System.out.println("Opción no válida.");
+        }
+    }
+
+    /**
+     * Muestra el menú para la hospitalización y maneja la selección de opciones.
+     */
+    static void menuHospitalizacion() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\n--- Menú Hospitalización ---");
+        System.out.println("1. Ver pacientes hospitalizados");
+        System.out.println("2. Hospitalizar paciente");
+        System.out.println("3. Dar de alta a paciente");
+        System.out.print("Seleccione una opción: ");
+        int opcion = scanner.nextInt();
+        switch (opcion) {
+            case 1:
+                verPacientesHospitalizados();
+                break;
+            case 2:
+                hospitalizarPaciente();
+                break;
+            case 3:
+                darDeAltaPaciente();
+                break;
+            default:
+                System.out.println("Opción no válida.");
+        }
+    }
+
+    /**
+     * Muestra la lista de pacientes hospitalizados.
+     */
+    private static void verPacientesHospitalizados() {
+        System.out.println("\n--- Pacientes Hospitalizados ---");
+        for (Paciente paciente : pacientes) {
+            if (paciente.isHospitalizado()) {
+                paciente.mostrarInfo();
+            }
+        }
+    }
+
+    /**
+     * Hospitaliza a un paciente.
+     */
+    private static void hospitalizarPaciente() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Ingrese el ID del paciente a hospitalizar: ");
+        int id = scanner.nextInt();
+        Paciente paciente = buscarPacientePorId(id);
+        if (paciente != null) {
+            paciente.hospitalizar();
+            System.out.println("Paciente hospitalizado exitosamente.");
+        } else {
+            System.out.println("Paciente no encontrado.");
+        }
+    }
+
+    /**
+     * Da de alta a un paciente hospitalizado.
+     */
+    private static void darDeAltaPaciente() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Ingrese el ID del paciente a dar de alta: ");
+        int id = scanner.nextInt();
+        Paciente paciente = buscarPacientePorId(id);
+        if (paciente != null && paciente.isHospitalizado()) {
+            paciente.darDeAlta();
+            System.out.println("Paciente dado de alta exitosamente.");
+        } else {
+            System.out.println("Paciente no encontrado o no está hospitalizado.");
         }
     }
 

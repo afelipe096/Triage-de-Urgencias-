@@ -1,0 +1,47 @@
+@startuml
+
+actor Medico
+actor Enfermero
+actor JefeDePersonal
+actor Paciente
+actor Sistema
+
+usecase "Atender paciente" as UC1
+usecase "Continuar consulta" as UC2
+usecase "Revisar historial médico" as UC3
+usecase "Registrar paciente" as UC4
+usecase "Asignar nivel de triaje" as UC5
+usecase "Evaluar paciente" as UC6
+usecase "Registrar médico" as UC7
+usecase "Actualizar médico" as UC8
+usecase "Eliminar médico" as UC9
+usecase "Registrar enfermero" as UC10
+usecase "Actualizar enfermero" as UC11
+usecase "Eliminar enfermero" as UC12
+usecase "Cargar datos predeterminados" as UC13
+usecase "Actualizar información de pacientes" as UC14
+usecase "Eliminar pacientes" as UC15
+
+Medico --> UC1
+Medico --> UC2
+Medico --> UC3
+
+Enfermero --> UC4
+Enfermero --> UC5
+Enfermero --> UC6
+
+JefeDePersonal --> UC7
+JefeDePersonal --> UC8
+JefeDePersonal --> UC9
+JefeDePersonal --> UC10
+JefeDePersonal --> UC11
+JefeDePersonal --> UC12
+
+Sistema --> UC13
+Sistema --> UC14
+Sistema --> UC15
+
+Paciente --> UC4
+Paciente --> UC5
+
+@enduml

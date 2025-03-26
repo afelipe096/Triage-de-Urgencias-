@@ -11,6 +11,7 @@ public class Paciente extends Persona {
     private Enfermero enfermeroAsignado;
     private Integer numeroCama; // Puede ser null si el paciente no necesita cama
     private HistorialMedico historial; // ✅ Nuevo atributo
+    private boolean hospitalizado; // ✅ Nuevo atributo
 
     // Constructor de la clase Paciente
     public Paciente(int id, String nombre, String telefono, String direccion, String correo, 
@@ -22,13 +23,14 @@ public class Paciente extends Persona {
         this.enfermeroAsignado = enfermeroAsignado;
         this.numeroCama = numeroCama;
         this.historial = new HistorialMedico(id, this); // ✅ Se inicializa el historial
+        this.hospitalizado = false; // ✅ Inicialmente no hospitalizado
     }
 
     // Métodos getter y setter para los atributos de la clase
     public List<String> getSintomas() {
         return sintomas;
     }
-
+    
     public void agregarSintoma(String sintoma) {
         sintomas.add(sintoma);
     }
@@ -61,6 +63,10 @@ public class Paciente extends Persona {
         return numeroCama;
     }
 
+    public void setNumeroCama(Integer numeroCama) {
+        this.numeroCama = numeroCama;
+    }
+
     public void asignarCama(int numeroCama) {
         this.numeroCama = numeroCama;
     }
@@ -78,6 +84,19 @@ public class Paciente extends Persona {
         return historial;
     }
 
+    // ✅ Métodos para manejar la hospitalización
+    public boolean isHospitalizado() {
+        return hospitalizado;
+    }
+
+    public void hospitalizar() {
+        this.hospitalizado = true;
+    }
+
+    public void darDeAlta() {
+        this.hospitalizado = false;
+    }
+
     // Método para mostrar la información del paciente
     @Override
     public void mostrarInfo() {
@@ -92,6 +111,7 @@ public class Paciente extends Persona {
         System.out.println("Médico Asignado: " + (medicoAsignado != null ? medicoAsignado.getNombre() : "No asignado"));
         System.out.println("Enfermero Asignado: " + (enfermeroAsignado != null ? enfermeroAsignado.getNombre() : "No asignado"));
         System.out.println("Número de Cama: " + (numeroCama != null ? numeroCama : "No requiere"));
+        System.out.println("Hospitalizado: " + (hospitalizado ? "Sí" : "No"));
         System.out.println("📝 Historial Médico:");
         System.out.println(historial.obtenerHistorial());
     }

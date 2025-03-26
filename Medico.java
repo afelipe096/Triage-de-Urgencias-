@@ -29,7 +29,7 @@ public class Medico extends Persona {
         System.out.println("Teléfono: " + getTelefono());
         System.out.println("Dirección: " + getDireccion());
         System.out.println("Correo: " + getCorreo());
-        System.out.println("📌 Tipo: Médico");
+        System.out.println(" Tipo: Médico");
         System.out.println("Especialidad: " + especialidad);
     }
 
@@ -64,7 +64,7 @@ public class Medico extends Persona {
         paciente.getHistorial().agregarRegistro("Diagnóstico realizado por " + getNombre() + " (" + especialidad + ")");
         
         // Mostrar el historial clínico actualizado
-        System.out.println("\n📝 Historial Clínico Actualizado:");
+        System.out.println("\n Historial Clínico Actualizado:");
         System.out.println(paciente.getHistorial().obtenerHistorial());
     }
 }

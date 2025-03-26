@@ -36,7 +36,7 @@ public class Enfermero extends Persona {
         System.out.println("Teléfono: " + getTelefono());
         System.out.println("Dirección: " + getDireccion());
         System.out.println("Correo: " + getCorreo());
-        System.out.println("📌 Tipo: Enfermero");
+        System.out.println(" Tipo: Enfermero");
         System.out.println("Especialidad: " + especialidad);
         System.out.println("Turno: " + turno);
     }
@@ -67,7 +67,7 @@ public class Enfermero extends Persona {
         Triage triage = new Triage();
         triage.mostrarCatalogo();
 
-        System.out.println("\n🩺 Enfermero " + getNombre() + " asignando triage al paciente...");
+        System.out.println("\n Enfermero " + getNombre() + " asignando triage al paciente...");
         
         while (true) {
             System.out.print("Ingrese el número de la enfermedad (0 para finalizar): ");
@@ -79,5 +79,6 @@ public class Enfermero extends Persona {
 
         // Evaluar y mostrar el diagnóstico final
         triage.evaluarPaciente(paciente);
+        paciente.getHistorial().agregarRegistro("Triage asignado por " + getNombre() + " (" + especialidad + ")");
     }
 }

@@ -114,7 +114,6 @@ public class Triage {
                 return "Asma";
             case 5:
                 return "COVID-19";
-            // Agregar más casos según sea necesario
             default:
                 return null;
         }
@@ -138,7 +137,14 @@ public class Triage {
         } else {
             System.out.println("Enfermedades asignadas: " + String.join(", ", enfermedades));
             // Evaluar el estado del paciente basado en las enfermedades asignadas
-            // Aquí puedes agregar la lógica para evaluar el estado del paciente
+            if (nivelUrgencia == 1) {
+                System.out.println("El paciente requiere atención .");
+            } else if (nivelUrgencia == 2) {
+                System.out.println("El paciente requiere atención urgente.");
+            } else {
+                System.out.println("El paciente requiere atención prioritaria.");
+            }
         }
+        
     }
 }
