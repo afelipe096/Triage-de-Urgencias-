@@ -5,12 +5,14 @@ public class MenuPrincipal {
     private static List<Medico> medicos;
     private static List<Enfermero> enfermeros;
     private static List<Paciente> pacientes;
+    private static Hospitalizacion hospitalizacion;
 
     public static void main(String[] args) {
         // Cargar datos predeterminados
         medicos = DatosPredeterminados.cargarMedicos();
         enfermeros = DatosPredeterminados.crearEnfermeros();
         pacientes = DatosPredeterminados.crearPacientes();
+        hospitalizacion = new Hospitalizacion(10); // Suponiendo que hay 10 camas disponibles
         
         mostrarMenuPrincipal();
     }
@@ -67,7 +69,8 @@ public class MenuPrincipal {
             System.out.println("1. Registrar Paciente");
             System.out.println("2. Asignar Triage");
             System.out.println("3. Actualizar Paciente");
-            System.out.println("4. Eliminar Paciente");
+            System.out.println("4. Listar Pacientes");
+            System.out.println("5. Eliminar Paciente");
             System.out.print("Seleccione una opción: ");
             int opcion = scanner.nextInt();
             switch (opcion) {
@@ -96,6 +99,9 @@ public class MenuPrincipal {
                     }
                     break;
                 case 4:
+                    listarPacientes();
+                    break;
+                case 5:
                     System.out.print("Ingrese el ID del paciente a eliminar: ");
                     int pacienteIdEliminar = scanner.nextInt();
                     Paciente pacienteEliminar = buscarPacientePorId(pacienteIdEliminar);
@@ -211,7 +217,7 @@ public class MenuPrincipal {
         int opcion = scanner.nextInt();
         switch (opcion) {
             case 1:
-                verPacientesHospitalizados();
+                hospitalizacion.verPacientesHospitalizados();
                 break;
             case 2:
                 hospitalizarPaciente();
@@ -225,18 +231,6 @@ public class MenuPrincipal {
     }
 
     /**
-     * Muestra la lista de pacientes hospitalizados.
-     */
-    private static void verPacientesHospitalizados() {
-        System.out.println("\n--- Pacientes Hospitalizados ---");
-        for (Paciente paciente : pacientes) {
-            if (paciente.isHospitalizado()) {
-                paciente.mostrarInfo();
-            }
-        }
-    }
-
-    /**
      * Hospitaliza a un paciente.
      */
     private static void hospitalizarPaciente() {
@@ -245,8 +239,10 @@ public class MenuPrincipal {
         int id = scanner.nextInt();
         Paciente paciente = buscarPacientePorId(id);
         if (paciente != null) {
-            paciente.hospitalizar();
-            System.out.println("Paciente hospitalizado exitosamente.");
+            if (hospitalizacion.asignarCama(paciente)) {
+                paciente.hospitalizar();
+                System.out.println("Paciente hospitalizado exitosamente.");
+            }
         } else {
             System.out.println("Paciente no encontrado.");
         }
@@ -261,6 +257,7 @@ public class MenuPrincipal {
         int id = scanner.nextInt();
         Paciente paciente = buscarPacientePorId(id);
         if (paciente != null && paciente.isHospitalizado()) {
+            hospitalizacion.darDeAlta(paciente);
             paciente.darDeAlta();
             System.out.println("Paciente dado de alta exitosamente.");
         } else {
@@ -274,9 +271,17 @@ public class MenuPrincipal {
     private static void registrarMedico() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("\n--- Registrar Médico ---");
-        System.out.print("ID: ");
-        int id = scanner.nextInt();
-        scanner.nextLine(); // Consumir el salto de línea
+        int id;
+        while (true) {
+            System.out.print("ID: ");
+            id = scanner.nextInt();
+            scanner.nextLine(); // Consumir el salto de línea
+            if (buscarMedicoPorId(id) == null) {
+                break;
+            } else {
+                System.out.println("El ID ya existe. Por favor, ingrese otro ID.");
+            }
+        }
         System.out.print("Nombre: ");
         String nombre = scanner.nextLine();
         System.out.print("Teléfono: ");
@@ -348,9 +353,17 @@ public class MenuPrincipal {
     private static void registrarEnfermero() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("\n--- Registrar Enfermero ---");
-        System.out.print("ID: ");
-        int id = scanner.nextInt();
-        scanner.nextLine(); // Consumir el salto de línea
+        int id;
+        while (true) {
+            System.out.print("ID: ");
+            id = scanner.nextInt();
+            scanner.nextLine(); // Consumir el salto de línea
+            if (buscarEnfermeroPorId(id) == null) {
+                break;
+            } else {
+                System.out.println("El ID ya existe. Por favor, ingrese otro ID.");
+            }
+        }
         System.out.print("Nombre: ");
         String nombre = scanner.nextLine();
         System.out.print("Teléfono: ");
@@ -467,22 +480,8 @@ public class MenuPrincipal {
      * Registra un nuevo paciente.
      */
     private static void registrarPaciente() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\n--- Registrar Paciente ---");
-        System.out.print("ID: ");
-        int id = scanner.nextInt();
-        scanner.nextLine(); // Consumir el salto de línea
-        System.out.print("Nombre: ");
-        String nombre = scanner.nextLine();
-        System.out.print("Teléfono: ");
-        String telefono = scanner.nextLine();
-        System.out.print("Dirección: ");
-        String direccion = scanner.nextLine();
-        System.out.print("Correo: ");
-        String correo = scanner.nextLine();
-        Paciente paciente = new Paciente(id, nombre, telefono, direccion, correo, null, null, null);
-        System.out.println("\n✅ Paciente registrado exitosamente:");
-        paciente.mostrarInfo();
+        Enfermero enfermero = new Enfermero(0, "", "", "", "", "", ""); // Crear un objeto Enfermero temporal
+        enfermero.registrarPaciente();
     }
 
     /**
@@ -506,5 +505,15 @@ public class MenuPrincipal {
         paciente.setCorreo(correo);
         DatosPredeterminados.actualizarPaciente(paciente);
         System.out.println("Paciente actualizado exitosamente.");
+    }
+
+    /**
+     * Lista todos los pacientes registrados.
+     */
+    private static void listarPacientes() {
+        System.out.println("\n--- Lista de Pacientes ---");
+        for (Paciente paciente : pacientes) {
+            paciente.mostrarInfo();
+        }
     }
 }

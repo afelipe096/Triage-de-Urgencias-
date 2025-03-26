@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +19,7 @@ public class Hospitalizacion {
                 paciente.setNumeroCama(cama.getKey());
                 pacientesHospitalizados.add(paciente);
                 camasDisponibles.put(cama.getKey(), false); // Ocupa la cama
-                System.out.println("✅ Cama " + cama.getKey() + " asignada a " + paciente.getNombre());
+                System.out.println("Cama " + cama.getKey() + " asignada a " + paciente.getNombre());
                 return true;
             }
         }
@@ -45,6 +44,14 @@ public class Hospitalizacion {
         for (Map.Entry<Integer, Boolean> cama : camasDisponibles.entrySet()) {
             String estado = cama.getValue() ? "🟢 Libre" : "🔴 Ocupada";
             System.out.println("Cama " + cama.getKey() + ": " + estado);
+        }
+    }
+
+    // Método para mostrar la lista de pacientes hospitalizados
+    public void verPacientesHospitalizados() {
+        System.out.println("\n--- Pacientes Hospitalizados ---");
+        for (Paciente paciente : pacientesHospitalizados) {
+            paciente.mostrarInfo();
         }
     }
 }

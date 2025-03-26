@@ -92,30 +92,12 @@ public class Triage {
 
     // Método para eliminar una enfermedad del paciente
     public void eliminarEnfermedad(int num) {
-        String enfermedad = obtenerEnfermedadPorNumero(num);
-        if (enfermedad != null && enfermedades.contains(enfermedad)) {
-            enfermedades.remove(enfermedad);
+        String enfermedad = catalogoEnfermedades.get(num);
+        if (enfermedad != null && enfermedadesPaciente.contains(num)) {
+            enfermedadesPaciente.remove(Integer.valueOf(num));
             System.out.println("Enfermedad eliminada: " + enfermedad);
         } else {
             System.out.println("Enfermedad no encontrada.");
-        }
-    }
-
-    // Método para obtener una enfermedad por su número
-    private String obtenerEnfermedadPorNumero(int num) {
-        switch (num) {
-            case 1:
-                return "Gripe";
-            case 2:
-                return "Neumonía";
-            case 3:
-                return "Bronquitis";
-            case 4:
-                return "Asma";
-            case 5:
-                return "COVID-19";
-            default:
-                return null;
         }
     }
 
@@ -131,20 +113,13 @@ public class Triage {
             System.out.println("- " + catalogoEnfermedades.get(numero) + " (Nivel " + nivelesUrgencia.get(numero) + ")");
         }
 
-        System.out.println("\n--- Evaluación del Paciente ---");
-        if (enfermedades.isEmpty()) {
-            System.out.println("No se han asignado enfermedades.");
+        // Evaluar el estado del paciente basado en las enfermedades asignadas
+        if (nivelUrgencia == 1) {
+            System.out.println("El paciente requiere atención inmediata.");
+        } else if (nivelUrgencia == 2) {
+            System.out.println("El paciente requiere atención urgente.");
         } else {
-            System.out.println("Enfermedades asignadas: " + String.join(", ", enfermedades));
-            // Evaluar el estado del paciente basado en las enfermedades asignadas
-            if (nivelUrgencia == 1) {
-                System.out.println("El paciente requiere atención .");
-            } else if (nivelUrgencia == 2) {
-                System.out.println("El paciente requiere atención urgente.");
-            } else {
-                System.out.println("El paciente requiere atención prioritaria.");
-            }
+            System.out.println("El paciente requiere atención prioritaria.");
         }
-        
     }
 }

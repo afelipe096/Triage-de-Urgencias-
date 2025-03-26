@@ -5,6 +5,7 @@ import java.util.List;
  * Esta clase representa a un paciente y contiene métodos para manejar las operaciones relacionadas con los pacientes.
  */
 public class Paciente extends Persona {
+    private static List<Paciente> pacientes;
     private List<String> sintomas;
     private int nivelTriage;
     private Medico medicoAsignado;
@@ -115,4 +116,6 @@ public class Paciente extends Persona {
         System.out.println("📝 Historial Médico:");
         System.out.println(historial.obtenerHistorial());
     }
+    
+    
 }

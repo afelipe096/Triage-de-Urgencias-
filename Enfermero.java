@@ -43,8 +43,19 @@ public class Enfermero extends Persona {
 
     // Método para registrar un nuevo paciente
     public void registrarPaciente() {
+        Scanner scanner = new Scanner(System.in);
         System.out.println("\n🩺 Enfermero " + getNombre() + " registrando un paciente...");
-        int id = Persona.solicitarId();
+        int id;
+        while (true) {
+            System.out.print("ID: ");
+            id = scanner.nextInt();
+            scanner.nextLine(); // Consumir el salto de línea
+            if (buscarPacientePorId(id) == null) {
+                break;
+            } else {
+                System.out.println("El ID ya existe. Por favor, ingrese otro ID.");
+            }
+        }
         String nombre = Persona.solicitarNombre();
         String telefono = Persona.solicitarTelefono();
         String direccion = Persona.solicitarDireccion();
@@ -80,5 +91,18 @@ public class Enfermero extends Persona {
         // Evaluar y mostrar el diagnóstico final
         triage.evaluarPaciente(paciente);
         paciente.getHistorial().agregarRegistro("Triage asignado por " + getNombre() + " (" + especialidad + ")");
+    }
+
+    // Método para buscar un paciente por su ID
+    private Paciente buscarPacientePorId(int id) {
+        for (Paciente paciente : DatosPredeterminados.getPacientesRegistrados()) {
+            if (paciente.getId() == id) {
+                return paciente;
+            }
+        }
+        return null;
+    }
+
+    public void getRegistrarPaciente() {
     }
 }
