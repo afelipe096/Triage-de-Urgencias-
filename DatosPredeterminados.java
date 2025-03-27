@@ -4,6 +4,11 @@ import java.util.List;
 public class DatosPredeterminados {
     private static List<Paciente> pacientes = new ArrayList<>();
 
+    // Bloque static para cargar automáticamente los pacientes predeterminados
+    static {
+        crearPacientes();
+    }
+
     // Método para cargar una lista de médicos predeterminados
     public static List<Medico> cargarMedicos() {
         List<Medico> medicos = new ArrayList<>();
@@ -30,7 +35,7 @@ public class DatosPredeterminados {
         return enfermeros;
     }
 
-    // Método para cargar una lista de pacientes predeterminados
+    // Método para crear y cargar la lista de pacientes predeterminados
     public static List<Paciente> crearPacientes() {
         pacientes.add(new Paciente(1, "Pedro Sánchez", "111222333", "Calle 3", "pedro.sanchez@correo.com", null, null, null));
         pacientes.add(new Paciente(2, "Laura Martínez", "444555666", "Calle 4", "laura.martinez@correo.com", null, null, null));

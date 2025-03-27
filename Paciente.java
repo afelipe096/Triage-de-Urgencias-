@@ -1,40 +1,40 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
- * Esta clase representa a un paciente y contiene métodos para manejar las operaciones relacionadas con los pacientes.
+ * Clase que representa a un paciente en el sistema.
+ * Hereda de la clase abstracta Persona.
  */
 public class Paciente extends Persona {
-    private static List<Paciente> pacientes;
-    private List<String> sintomas;
-    private int nivelTriage;
-    private Medico medicoAsignado;
-    private Enfermero enfermeroAsignado;
-    private Integer numeroCama; // Puede ser null si el paciente no necesita cama
-    private HistorialMedico historial; // ✅ Nuevo atributo
-    private boolean hospitalizado; // ✅ Nuevo atributo
+    // Atributos específicos de un paciente
+    private List<String> sintomas; // Lista de síntomas del paciente
+    private int nivelTriage; // Nivel de urgencia del paciente
+    private Medico medicoAsignado; // Médico asignado al paciente
+    private Enfermero enfermeroAsignado; // Enfermero asignado al paciente
+    private Integer numeroCama; // Número de cama asignada (null si no tiene cama)
+    private HistorialMedico historial; // Historial médico del paciente
+    private boolean hospitalizado; // Indica si el paciente está hospitalizado
 
-    // Constructor de la clase Paciente
+    // Constructor para inicializar un paciente
     public Paciente(int id, String nombre, String telefono, String direccion, String correo, 
                     Medico medicoAsignado, Enfermero enfermeroAsignado, Integer numeroCama) {
-        super(id, nombre, telefono, direccion, correo);
+        super(id, nombre, telefono, direccion, correo); // Llama al constructor de la clase base
         this.sintomas = new ArrayList<>();
         this.nivelTriage = 3; // Nivel más bajo por defecto
         this.medicoAsignado = medicoAsignado;
         this.enfermeroAsignado = enfermeroAsignado;
         this.numeroCama = numeroCama;
-        this.historial = new HistorialMedico(id, this); // ✅ Se inicializa el historial
-        this.hospitalizado = false; // ✅ Inicialmente no hospitalizado
+        this.historial = new HistorialMedico(id, this); // Inicializa el historial médico
+        this.hospitalizado = false; // Inicialmente no está hospitalizado
     }
 
-    // Métodos getter y setter para los atributos de la clase
+    // Métodos getter y setter para los atributos
     public List<String> getSintomas() {
         return sintomas;
     }
-    
+
     public void agregarSintoma(String sintoma) {
-        sintomas.add(sintoma);
+        sintomas.add(sintoma); // Agrega un síntoma a la lista
     }
 
     public int getNivelTriage() {
@@ -42,7 +42,7 @@ public class Paciente extends Persona {
     }
 
     public void setNivelTriage(int nivelTriage) {
-        this.nivelTriage = nivelTriage;
+        this.nivelTriage = nivelTriage; // Actualiza el nivel de urgencia
     }
 
     public Medico getMedicoAsignado() {
@@ -50,7 +50,7 @@ public class Paciente extends Persona {
     }
 
     public void asignarMedico(Medico medico) {
-        this.medicoAsignado = medico;
+        this.medicoAsignado = medico; // Asigna un médico al paciente
     }
 
     public Enfermero getEnfermeroAsignado() {
@@ -58,7 +58,7 @@ public class Paciente extends Persona {
     }
 
     public void asignarEnfermero(Enfermero enfermero) {
-        this.enfermeroAsignado = enfermero;
+        this.enfermeroAsignado = enfermero; // Asigna un enfermero al paciente
     }
 
     public Integer getNumeroCama() {
@@ -66,37 +66,35 @@ public class Paciente extends Persona {
     }
 
     public void setNumeroCama(Integer numeroCama) {
-        this.numeroCama = numeroCama;
+        this.numeroCama = numeroCama; // Asigna un número de cama
     }
 
     public void asignarCama(int numeroCama) {
-        this.numeroCama = numeroCama;
+        this.numeroCama = numeroCama; // Asigna una cama específica
     }
 
     public void eliminarMedico() {
-        this.medicoAsignado = null;
+        this.medicoAsignado = null; // Elimina la asignación del médico
     }
 
     public void eliminarEnfermero() {
-        this.enfermeroAsignado = null;
+        this.enfermeroAsignado = null; // Elimina la asignación del enfermero
     }
 
-    // ✅ Método para obtener el historial médico del paciente
     public HistorialMedico getHistorial() {
-        return historial;
+        return historial; // Devuelve el historial médico
     }
 
-    // ✅ Métodos para manejar la hospitalización
     public boolean isHospitalizado() {
-        return hospitalizado;
+        return hospitalizado; // Devuelve si el paciente está hospitalizado
     }
 
     public void hospitalizar() {
-        this.hospitalizado = true;
+        this.hospitalizado = true; // Marca al paciente como hospitalizado
     }
 
     public void darDeAlta() {
-        this.hospitalizado = false;
+        this.hospitalizado = false; // Marca al paciente como dado de alta
     }
 
     // Método para mostrar la información del paciente
@@ -120,30 +118,28 @@ public class Paciente extends Persona {
 
     // Método para actualizar la información del paciente
     public void actualizarPaciente() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("\n--- Actualizar Paciente ---");
         System.out.print("Nombre: ");
-        String nombre = scanner.nextLine();
+        String nombre = Persona.SCANNER.nextLine();
         System.out.print("Teléfono: ");
-        String telefono = scanner.nextLine();
+        String telefono = Persona.SCANNER.nextLine();
         System.out.print("Dirección: ");
-        String direccion = scanner.nextLine();
+        String direccion = Persona.SCANNER.nextLine();
         System.out.print("Correo: ");
-        String correo = scanner.nextLine();
+        String correo = Persona.SCANNER.nextLine();
         setNombre(nombre);
         setTelefono(telefono);
         setDireccion(direccion);
         setCorreo(correo);
-        DatosPredeterminados.actualizarPaciente(this);
+        DatosPredeterminados.actualizarPaciente(this); // Actualiza el paciente en la lista de datos predeterminados
         System.out.println("Paciente actualizado exitosamente.");
     }
 
     // Método para registrar un nuevo paciente
     public static void registrarPaciente() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("\n--- Registrar Paciente ---");
 
-        // Obtener la lista de pacientes registrados
+        // Obtener la lista de pacientes registrados a través de DatosPredeterminados.
         List<Paciente> pacientesRegistrados = DatosPredeterminados.getPacientesRegistrados();
         if (pacientesRegistrados == null) {
             System.out.println("Error: La lista de pacientes no está inicializada.");
@@ -153,8 +149,14 @@ public class Paciente extends Persona {
         int id;
         while (true) {
             System.out.print("ID: ");
-            id = scanner.nextInt();
-            scanner.nextLine(); // Consumir el salto de línea
+            // Validar que la entrada sea un entero
+            while (!Persona.SCANNER.hasNextInt()) {
+                System.out.println("Entrada inválida. Por favor, ingrese un número entero.");
+                Persona.SCANNER.next(); 
+            }
+            id = Persona.SCANNER.nextInt();
+            Persona.SCANNER.nextLine(); 
+
             // Verificar si el ID ya existe en la lista de pacientes registrados
             boolean idExiste = false;
             for (Paciente paciente : pacientesRegistrados) {
@@ -170,7 +172,7 @@ public class Paciente extends Persona {
             }
         }
 
-        // Solicitar los datos del paciente
+        // Solicitar los datos del paciente utilizando los métodos de Persona
         String nombre = Persona.solicitarNombre();
         String telefono = Persona.solicitarTelefono();
         String direccion = Persona.solicitarDireccion();
@@ -179,9 +181,15 @@ public class Paciente extends Persona {
         // Crear un nuevo paciente y agregarlo a la lista de pacientes registrados
         Paciente paciente = new Paciente(id, nombre, telefono, direccion, correo, null, null, null);
         pacientesRegistrados.add(paciente);
-
-        // Confirmar el registro del paciente
         System.out.println("\n✅ Paciente registrado exitosamente:");
         paciente.mostrarInfo();
+    }
+
+    // Método para eliminar la asignación de triage
+    public void eliminarAsignacionTriage() {
+        this.sintomas.clear(); // Limpia la lista de síntomas
+        this.nivelTriage = 3; // Restablece el nivel de triage al valor por defecto
+        this.enfermeroAsignado = null; // Desasigna el enfermero
+        this.historial.agregarRegistro("Se eliminó la asignación de triage."); // Agrega un registro al historial
     }
 }

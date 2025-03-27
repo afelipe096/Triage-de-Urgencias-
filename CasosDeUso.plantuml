@@ -1,47 +1,56 @@
 @startuml
+left to right direction
+skinparam packageStyle rectangle
 
-actor Medico
-actor Enfermero
-actor JefeDePersonal
-actor Paciente
-actor Sistema
+actor "Jefe de Personal" as Jefe
+actor "Enfermero" as Enfermero
+actor "Médico" as Medico
+actor "Administrador del Sistema" as Admin
 
-usecase "Atender paciente" as UC1
-usecase "Continuar consulta" as UC2
-usecase "Revisar historial médico" as UC3
-usecase "Registrar paciente" as UC4
-usecase "Asignar nivel de triaje" as UC5
-usecase "Evaluar paciente" as UC6
-usecase "Registrar médico" as UC7
-usecase "Actualizar médico" as UC8
-usecase "Eliminar médico" as UC9
-usecase "Registrar enfermero" as UC10
-usecase "Actualizar enfermero" as UC11
-usecase "Eliminar enfermero" as UC12
-usecase "Cargar datos predeterminados" as UC13
-usecase "Actualizar información de pacientes" as UC14
-usecase "Eliminar pacientes" as UC15
+rectangle Sistema {
+    usecase "Gestionar Médicos" as UC1
+    usecase "Gestionar Enfermeros" as UC2
+    usecase "Registrar Paciente" as UC3
+    usecase "Actualizar Paciente" as UC4
+    usecase "Asignar Triage" as UC5
+    usecase "Consultar Paciente" as UC6
+    usecase "Hospitalizar Paciente" as UC7
+    usecase "Dar de Alta Paciente" as UC8
+    usecase "Consultar Historial Médico" as UC9
+    usecase "Generar Informe de Tratamiento" as UC10
+    usecase "Ver Estado de Camas" as UC11
+}
 
-Medico --> UC1
-Medico --> UC2
-Medico --> UC3
+' Relaciones del Jefe de Personal
+Jefe --> UC1 : "Gestiona médicos"
+Jefe --> UC2 : "Gestiona enfermeros"
 
-Enfermero --> UC4
-Enfermero --> UC5
-Enfermero --> UC6
+' Relaciones del Enfermero
+Enfermero --> UC3 : "Registra pacientes"
+Enfermero --> UC4 : "Actualiza pacientes"
+Enfermero --> UC5 : "Asigna triage"
+Enfermero --> UC7 : "Hospitaliza pacientes"
+Enfermero --> UC11 : "Consulta estado de camas"
 
-JefeDePersonal --> UC7
-JefeDePersonal --> UC8
-JefeDePersonal --> UC9
-JefeDePersonal --> UC10
-JefeDePersonal --> UC11
-JefeDePersonal --> UC12
+' Relaciones del Médico
+Medico --> UC6 : "Consulta pacientes"
+Medico --> UC9 : "Consulta historial médico"
+Medico --> UC10 : "Genera informe de tratamiento"
 
-Sistema --> UC13
-Sistema --> UC14
-Sistema --> UC15
+' Relaciones del Administrador del Sistema
+Admin --> UC1 : "Gestiona médicos"
+Admin --> UC2 : "Gestiona enfermeros"
+Admin --> UC3 : "Registra pacientes"
+Admin --> UC7 : "Hospitaliza pacientes"
+Admin --> UC8 : "Da de alta pacientes"
+Admin --> UC11 : "Consulta estado de camas"
 
-Paciente --> UC4
-Paciente --> UC5
+' Relaciones entre casos de uso
+UC3 <|-- UC4 : <<include>> "Actualizar información"
+UC5 <|-- UC7 : <<include>> "Hospitalizar después de triage"
+UC7 <|-- UC8 : <<include>> "Dar de alta después de hospitalización"
+UC6 <|-- UC9 : <<include>> "Consultar historial"
+UC10 <|-- UC9 : <<extend>> "Generar informe basado en historial"
+UC11 <|-- UC7 : <<include>> "Verificar camas antes de hospitalizar"
 
 @enduml

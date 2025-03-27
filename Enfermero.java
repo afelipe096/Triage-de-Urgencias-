@@ -1,17 +1,19 @@
-import java.util.Scanner;
-
+/**
+ * Clase que representa a un enfermero en el sistema.
+ * Hereda de la clase abstracta Persona.
+ */
 public class Enfermero extends Persona {
-    private String especialidad;
-    private String turno;
+    private String especialidad; // Especialidad del enfermero
+    private String turno; // Turno de trabajo del enfermero (Mañana, Tarde, Noche)
 
-    // Constructor de la clase Enfermero
+    // Constructor para inicializar un enfermero
     public Enfermero(int id, String nombre, String telefono, String direccion, String correo, String especialidad, String turno) {
-        super(id, nombre, telefono, direccion, correo);
+        super(id, nombre, telefono, direccion, correo); // Llama al constructor de la clase base
         this.especialidad = especialidad;
         this.turno = turno;
     }
 
-    // Métodos getter y setter para los atributos de la clase
+    // Métodos getter y setter para los atributos
     public String getEspecialidad() {
         return especialidad;
     }
@@ -36,50 +38,66 @@ public class Enfermero extends Persona {
         System.out.println("Teléfono: " + getTelefono());
         System.out.println("Dirección: " + getDireccion());
         System.out.println("Correo: " + getCorreo());
-        System.out.println(" Tipo: Enfermero");
+        System.out.println("Tipo: Enfermero");
         System.out.println("Especialidad: " + especialidad);
         System.out.println("Turno: " + turno);
     }
 
     // Método para asignar triage a un paciente
     public void asignarTriage(Paciente paciente) {
-        Scanner scanner = new Scanner(System.in);
+        // Asigna al enfermero al paciente
+        paciente.asignarEnfermero(this);
+        
         Triage triage = new Triage();
         triage.mostrarCatalogo();
-
-        System.out.println("\n Enfermero " + getNombre() + " asignando triage al paciente...");
-        
+    
+        System.out.println("\nEnfermero " + getNombre() + " asignando triage al paciente...");
+    
         while (true) {
             System.out.print("Ingrese el número de la enfermedad (0 para finalizar): ");
-            int num = scanner.nextInt();
-            if (num == 0) break; // Salir cuando el enfermero termine de asignar enfermedades
+            int num = Persona.SCANNER.nextInt();
+            Persona.SCANNER.nextLine(); // Consumir salto de línea
+            if (num == 0) break;
             
+            // Agregar la enfermedad al triage
             triage.agregarEnfermedad(num);
+            // Agregar el síntoma al paciente con el formato esperado, por ejemplo:
+            String sintoma = triage.getEnfermedad(num);
+            if (sintoma != null) {
+                // Formatear el síntoma para incluir el código, por ejemplo:
+                paciente.agregarSintoma(sintoma + " (Código: " + num + ")");
+            }
         }
-
-        // Evaluar y mostrar el diagnóstico final
+        
+        // Evaluar el paciente según el triage (actualiza nivel y muestra mensajes)
         triage.evaluarPaciente(paciente);
-        paciente.getHistorial().agregarRegistro("Triage asignado por " + getNombre() + " (" + especialidad + ")");
+        
+        // Actualiza el nivel de triage del paciente
+        paciente.setNivelTriage(triage.getNivelUrgencia());
+        
+        // Agrega registro al historial
+        paciente.getHistorial().agregarRegistro("Triage asignado por " + getNombre() + " (" + especialidad + "), Nivel: " + triage.getNivelUrgencia());
     }
-
-
+    
+    
+    
 
     // Método para actualizar la información del enfermero
     public void actualizarEnfermero() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("\n--- Actualizar Enfermero ---");
         System.out.print("Nombre: ");
-        String nombre = scanner.nextLine();
+        String nombre = Persona.SCANNER.nextLine();
         System.out.print("Teléfono: ");
-        String telefono = scanner.nextLine();
+        String telefono = Persona.SCANNER.nextLine();
         System.out.print("Dirección: ");
-        String direccion = scanner.nextLine();
+        String direccion = Persona.SCANNER.nextLine();
         System.out.print("Correo: ");
-        String correo = scanner.nextLine();
+        String correo = Persona.SCANNER.nextLine();
         System.out.print("Especialidad: ");
-        String especialidad = scanner.nextLine();
+        String especialidad = Persona.SCANNER.nextLine();
         System.out.print("Turno: ");
-        String turno = scanner.nextLine();
+        String turno = Persona.SCANNER.nextLine();
+
         setNombre(nombre);
         setTelefono(telefono);
         setDireccion(direccion);
@@ -92,27 +110,32 @@ public class Enfermero extends Persona {
 
     // Método para registrar un nuevo enfermero
     public static void registrarEnfermero() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("\n--- Registrar Enfermero ---");
         int id;
         while (true) {
             System.out.print("ID: ");
-            id = scanner.nextInt();
-            scanner.nextLine(); // Consumir el salto de línea
+            while (!Persona.SCANNER.hasNextInt()) {
+                System.out.println("Entrada inválida. Por favor, ingrese un número entero.");
+                Persona.SCANNER.next(); // Descarta la entrada inválida
+            }
+            id = Persona.SCANNER.nextInt();
+            Persona.SCANNER.nextLine(); // Consumir salto de línea
             if (buscarEnfermeroPorId(id) == null) {
                 break;
             } else {
                 System.out.println("El ID ya existe. Por favor, ingrese otro ID.");
             }
         }
+        // Usamos los métodos de la clase Persona para solicitar datos
         String nombre = Persona.solicitarNombre();
         String telefono = Persona.solicitarTelefono();
         String direccion = Persona.solicitarDireccion();
         String correo = Persona.solicitarCorreo();
         System.out.print("Especialidad: ");
-        String especialidad = scanner.nextLine();
+        String especialidad = Persona.SCANNER.nextLine();
         System.out.print("Turno: ");
-        String turno = scanner.nextLine();
+        String turno = Persona.SCANNER.nextLine();
+
         Enfermero enfermero = new Enfermero(id, nombre, telefono, direccion, correo, especialidad, turno);
         AdministracionPersonal.registrarEnfermero(enfermero);
         System.out.println("Enfermero registrado exitosamente.");
@@ -120,10 +143,10 @@ public class Enfermero extends Persona {
 
     // Método para eliminar un enfermero existente
     public static void eliminarEnfermero() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println("\n--- Eliminar Enfermero ---");
         System.out.print("ID del Enfermero: ");
-        int id = scanner.nextInt();
+        int id = Persona.SCANNER.nextInt();
+        Persona.SCANNER.nextLine();
         Enfermero enfermero = buscarEnfermeroPorId(id);
         if (enfermero != null) {
             AdministracionPersonal.eliminarEnfermero(enfermero);
@@ -135,7 +158,7 @@ public class Enfermero extends Persona {
 
     // Método para buscar un enfermero por su ID
     public static Enfermero buscarEnfermeroPorId(int id) {
-        for (Enfermero enfermero : AdministracionPersonal.getEnfermerosRegistrados()) { // Cambiado a AdministracionPersonal
+        for (Enfermero enfermero : AdministracionPersonal.getEnfermerosRegistrados()) {
             if (enfermero.getId() == id) {
                 return enfermero;
             }

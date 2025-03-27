@@ -1,25 +1,29 @@
 import java.util.*;
-
-/**
- * Esta clase representa el sistema de triage, que se encarga de clasificar a los pacientes según la urgencia de sus enfermedades.
- */
 public class Triage {
     private Map<Integer, String> catalogoEnfermedades;
     private Map<Integer, Integer> nivelesUrgencia;
     private List<Integer> enfermedadesPaciente;
     private int nivelUrgencia;
-    private List<String> enfermedades;
 
-    // Constructor de la clase Triage
+
     public Triage() {
         catalogoEnfermedades = new HashMap<>();
         nivelesUrgencia = new HashMap<>();
         enfermedadesPaciente = new ArrayList<>();
-        nivelUrgencia = 3; // Inicialmente el nivel más bajo
-        this.enfermedades = new ArrayList<>();
+        // Inicialmente se asume el nivel más bajo (3) y se actualizará al agregar enfermedades
+        nivelUrgencia = 3;
 
         agregarEnfermedades();
     }
+
+    public int getNivelUrgencia() {
+        return nivelUrgencia;
+    }
+    
+    public String getEnfermedad(int numero) {
+        return catalogoEnfermedades.get(numero);
+    }
+    
 
     // Método para agregar enfermedades al catálogo
     private void agregarEnfermedades() {
@@ -69,8 +73,11 @@ public class Triage {
     // Método para mostrar el catálogo de enfermedades
     public void mostrarCatalogo() {
         System.out.println("\n📋 Catálogo de Enfermedades:");
-        for (int i = 1; i <= catalogoEnfermedades.size(); i++) {
-            System.out.println(i + ". " + catalogoEnfermedades.get(i));
+        // Se itera sobre las claves ordenadas para garantizar el orden
+        List<Integer> claves = new ArrayList<>(catalogoEnfermedades.keySet());
+        Collections.sort(claves);
+        for (int clave : claves) {
+            System.out.println(clave + ". " + catalogoEnfermedades.get(clave));
         }
     }
 
@@ -79,11 +86,10 @@ public class Triage {
         if (catalogoEnfermedades.containsKey(numero)) {
             enfermedadesPaciente.add(numero);
             int nivel = nivelesUrgencia.get(numero);
+            // Se actualiza el nivel de urgencia si la enfermedad es de mayor prioridad
             if (nivel < nivelUrgencia) {
                 nivelUrgencia = nivel;
             }
-            
-            // ✅ Mensaje confirmando que la enfermedad se ha agregado correctamente
             System.out.println("✅ Enfermedad agregada: " + catalogoEnfermedades.get(numero));
         } else {
             System.out.println("⚠️ Número no válido, intenta de nuevo.");
@@ -92,10 +98,10 @@ public class Triage {
 
     // Método para eliminar una enfermedad del paciente
     public void eliminarEnfermedad(int num) {
-        String enfermedad = catalogoEnfermedades.get(num);
-        if (enfermedad != null && enfermedadesPaciente.contains(num)) {
+        if (catalogoEnfermedades.containsKey(num) && enfermedadesPaciente.contains(num)) {
             enfermedadesPaciente.remove(Integer.valueOf(num));
-            System.out.println("Enfermedad eliminada: " + enfermedad);
+            System.out.println("Enfermedad eliminada: " + catalogoEnfermedades.get(num));
+            // Opcional: podrías recalcular el nivel de urgencia si es necesario
         } else {
             System.out.println("Enfermedad no encontrada.");
         }
@@ -107,13 +113,14 @@ public class Triage {
         System.out.println("Nivel de urgencia asignado: " + nivelUrgencia);
 
         System.out.println("\n🩺 Enfermedades detectadas (ordenadas por urgencia):");
+        // Ordenamos las enfermedades del paciente según su nivel de urgencia
         enfermedadesPaciente.sort(Comparator.comparingInt(nivelesUrgencia::get));
 
         for (int numero : enfermedadesPaciente) {
             System.out.println("- " + catalogoEnfermedades.get(numero) + " (Nivel " + nivelesUrgencia.get(numero) + ")");
         }
 
-        // Evaluar el estado del paciente basado en las enfermedades asignadas
+        // Evaluar el estado del paciente basado en el nivel de urgencia
         if (nivelUrgencia == 1) {
             System.out.println("El paciente requiere atención inmediata.");
         } else if (nivelUrgencia == 2) {

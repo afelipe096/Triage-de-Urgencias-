@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +12,9 @@ public class HistorialMedico {
     private Paciente paciente;
     private List<String> registros;
     private Date fechaActualizacion;
+
+    // Formateador para la fecha de actualización.
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
     // Constructor de la clase HistorialMedico
     public HistorialMedico(int pacienteId, Paciente paciente) {
@@ -40,7 +44,8 @@ public class HistorialMedico {
         for (String registro : registros) {
             historial.append(registro).append("\n");
         }
-        return historial.toString() + "Última actualización: " + fechaActualizacion;
+        historial.append("Última actualización: ").append(dateFormat.format(fechaActualizacion));
+        return historial.toString();
     }
 
     // Métodos getter para los atributos de la clase

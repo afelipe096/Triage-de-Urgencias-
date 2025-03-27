@@ -1,16 +1,13 @@
 import java.util.Scanner;
-
-/**
- * Clase abstracta que representa a una persona.
- */
 public abstract class Persona {
     private int id;
     private String nombre;
     private String telefono;
     private String direccion;
     private String correo;
+    protected static final Scanner SCANNER = new Scanner(System.in);
 
-    // Constructor de la clase Persona
+
     public Persona(int id, String nombre, String telefono, String direccion, String correo) {
         this.id = id;
         this.nombre = nombre;
@@ -19,7 +16,6 @@ public abstract class Persona {
         this.correo = correo;
     }
 
-    // Métodos getter y setter para los atributos de la clase
     public int getId() {
         return id;
     }
@@ -63,34 +59,35 @@ public abstract class Persona {
     // Método abstracto para mostrar la información de la persona
     public abstract void mostrarInfo();
 
-    // Métodos de validación antes de la creación del objeto
+    // Métodos de validación y solicitud de datos antes de la creación del objeto
     public static int solicitarId() {
-        Scanner scanner = new Scanner(System.in);
         System.out.print("Ingrese el ID: ");
-        return scanner.nextInt();
+        while (!SCANNER.hasNextInt()) {
+            System.out.println("Entrada inválida. Por favor, ingrese un número entero.");
+            SCANNER.next(); // Descartar entrada inválida.
+        }
+        int id = SCANNER.nextInt();
+        SCANNER.nextLine(); // Consumir el salto de línea pendiente.
+        return id;
     }
 
     public static String solicitarNombre() {
-        Scanner scanner = new Scanner(System.in);
         System.out.print("Ingrese el nombre: ");
-        return scanner.nextLine();
+        return SCANNER.nextLine();
     }
 
     public static String solicitarTelefono() {
-        Scanner scanner = new Scanner(System.in);
         System.out.print("Ingrese el teléfono: ");
-        return scanner.nextLine();
+        return SCANNER.nextLine();
     }
 
     public static String solicitarDireccion() {
-        Scanner scanner = new Scanner(System.in);
         System.out.print("Ingrese la dirección: ");
-        return scanner.nextLine();
+        return SCANNER.nextLine();
     }
 
     public static String solicitarCorreo() {
-        Scanner scanner = new Scanner(System.in);
         System.out.print("Ingrese el correo: ");
-        return scanner.nextLine();
+        return SCANNER.nextLine();
     }
 }

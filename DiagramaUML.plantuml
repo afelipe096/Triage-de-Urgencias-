@@ -1,13 +1,25 @@
 @startuml
-!define RECTANGLE class
+skinparam classAttributeIconSize 0
 
-RECTANGLE Persona {
+' Clase abstracta Persona
+abstract class Persona {
     - int id
     - String nombre
     - String telefono
     - String direccion
     - String correo
-    + mostrarInfo()
+    --
+    + int getId()
+    + void setId(int id)
+    + String getNombre()
+    + void setNombre(String nombre)
+    + String getTelefono()
+    + void setTelefono(String telefono)
+    + String getDireccion()
+    + void setDireccion(String direccion)
+    + String getCorreo()
+    + void setCorreo(String correo)
+    + abstract void mostrarInfo()
     + static int solicitarId()
     + static String solicitarNombre()
     + static String solicitarTelefono()
@@ -15,114 +27,178 @@ RECTANGLE Persona {
     + static String solicitarCorreo()
 }
 
-RECTANGLE Paciente {
+' Clase Paciente
+class Paciente {
     - List<String> sintomas
     - int nivelTriage
     - Medico medicoAsignado
     - Enfermero enfermeroAsignado
     - Integer numeroCama
     - HistorialMedico historial
-    + agregarSintoma(String sintoma)
-    + getHistorial()
-    + mostrarInfo()
+    - boolean hospitalizado
+    --
+    + List<String> getSintomas()
+    + void agregarSintoma(String sintoma)
+    + int getNivelTriage()
+    + void setNivelTriage(int nivelTriage)
+    + Medico getMedicoAsignado()
+    + void asignarMedico(Medico medico)
+    + Enfermero getEnfermeroAsignado()
+    + void asignarEnfermero(Enfermero enfermero)
+    + Integer getNumeroCama()
+    + void setNumeroCama(Integer numeroCama)
+    + void asignarCama(int numeroCama)
+    + void eliminarMedico()
+    + void eliminarEnfermero()
+    + HistorialMedico getHistorial()
+    + boolean isHospitalizado()
+    + void hospitalizar()
+    + void darDeAlta()
+    + void mostrarInfo()
+    + void actualizarPaciente()
+    + static void registrarPaciente()
+    + void eliminarAsignacionTriage()
 }
 
-RECTANGLE Medico {
+' Clase Medico
+class Medico {
     - String especialidad
-    + atenderPaciente(Paciente paciente)
-    + continuarConsulta(Paciente paciente)
-    + mostrarInfo()
+    --
+    + String getEspecialidad()
+    + void setEspecialidad(String especialidad)
+    + void mostrarInfo()
+    + void atenderPaciente(Paciente paciente)
+    + void continuarConsulta(Paciente paciente)
+    + void actualizarMedico()
+    + static void registrarMedico()
+    + static void eliminarMedico()
 }
 
-RECTANGLE Enfermero {
+' Clase Enfermero
+class Enfermero {
     - String especialidad
     - String turno
-    + registrarPaciente()
-    + asignarTriage(Paciente paciente)
-    + mostrarInfo()
+    --
+    + String getEspecialidad()
+    + void setEspecialidad(String especialidad)
+    + String getTurno()
+    + void setTurno(String turno)
+    + void mostrarInfo()
+    + void asignarTriage(Paciente paciente)
+    + void actualizarEnfermero()
+    + static void registrarEnfermero()
+    + static void eliminarEnfermero()
+    + static Enfermero buscarEnfermeroPorId(int id)
 }
 
-RECTANGLE HistorialMedico {
+' Clase HistorialMedico
+class HistorialMedico {
     - int pacienteId
     - Paciente paciente
     - List<String> registros
     - Date fechaActualizacion
-    + agregarRegistro(String registro)
-    + obtenerHistorial()
+    --
+    + void agregarRegistro(String registro)
+    + String obtenerHistorial()
+    + int getPacienteId()
+    + Paciente getPaciente()
+    + Date getFechaActualizacion()
 }
 
-RECTANGLE Triage {
+' Clase AdministracionPersonal
+class AdministracionPersonal {
+    - static List<Medico> medicos
+    - static List<Enfermero> enfermeros
+    --
+    + static List<Medico> getMedicos()
+    + static void registrarMedico(Medico medico)
+    + static void actualizarMedico(Medico medicoActualizado)
+    + static void eliminarMedico(Medico medico)
+    + static Medico buscarMedicoPorId(int id)
+    + static List<Enfermero> getEnfermeros()
+    + static void registrarEnfermero(Enfermero enfermero)
+    + static void actualizarEnfermero(Enfermero enfermeroActualizado)
+    + static void eliminarEnfermero(Enfermero enfermero)
+    + static Enfermero buscarEnfermeroPorId(int id)
+}
+
+' Clase Hospitalizacion
+class Hospitalizacion {
+    - List<Paciente> pacientesHospitalizados
+    - Map<Integer, Boolean> camasDisponibles
+    --
+    + boolean asignarCama(Paciente paciente)
+    + void darDeAlta(Paciente paciente)
+    + void mostrarEstadoCamas()
+    + void verPacientesHospitalizados()
+}
+
+' Clase Triage
+class Triage {
     - Map<Integer, String> catalogoEnfermedades
     - Map<Integer, Integer> nivelesUrgencia
     - List<Integer> enfermedadesPaciente
     - int nivelUrgencia
-    - List<String> enfermedades
-    + mostrarCatalogo()
-    + agregarEnfermedad(int numero)
-    + eliminarEnfermedad(int num)
-    + evaluarPaciente(Paciente paciente)
+    --
+    + void mostrarCatalogo()
+    + void agregarEnfermedad(int numero)
+    + void eliminarEnfermedad(int num)
+    + void evaluarPaciente(Paciente paciente)
+    + int getNivelUrgencia()
+    + String getEnfermedad(int numero)
 }
 
-RECTANGLE AdministracionPersonal {
-    - static List<Medico> medicosRegistrados
-    - static List<Enfermero> enfermerosRegistrados
-    + static registrarMedico(Medico medico)
-    + static eliminarMedico(Medico medico)
-    + static actualizarMedico(Medico medicoActualizado)
-    + static registrarEnfermero(Enfermero enfermero)
-    + static eliminarEnfermero(Enfermero enfermero)
-    + static actualizarEnfermero(Enfermero enfermeroActualizado)
-    + static List<Medico> getMedicosRegistrados()
-    + static List<Enfermero> getEnfermerosRegistrados()
-}
-
-RECTANGLE DatosPredeterminados {
+' Clase DatosPredeterminados
+class DatosPredeterminados {
     - static List<Paciente> pacientes
+    --
     + static List<Medico> cargarMedicos()
     + static List<Enfermero> crearEnfermeros()
     + static List<Paciente> crearPacientes()
-    + static eliminarPaciente(Paciente paciente)
-    + static actualizarPaciente(Paciente pacienteActualizado)
+    + static void eliminarPaciente(Paciente paciente)
+    + static void actualizarPaciente(Paciente pacienteActualizado)
     + static List<Paciente> getPacientesRegistrados()
 }
 
-RECTANGLE MenuPrincipal {
-    - static List<Medico> medicos
-    - static List<Enfermero> enfermeros
-    - static List<Paciente> pacientes
-    + static void mostrarMenuPrincipal()
-    + static void menuEnfermero()
-    + static void menuMedico()
-    + static void menuJefeDePersonal()
-    + static void registrarMedico()
-    + static void eliminarMedico()
-    + static void actualizarMedico()
-    + static void registrarEnfermero()
-    + static void eliminarEnfermero()
-    + static void actualizarEnfermero()
-    + static Medico buscarMedicoPorId(int id)
-    + static Enfermero buscarEnfermeroPorId(int id)
-    + static Paciente buscarPacientePorId(int id)
-    + static void registrarPaciente()
-    + static void actualizarPaciente(Paciente paciente)
+' Clase TratamientoMedico
+class TratamientoMedico {
+    --
+    + void generarInformeTratamiento(Paciente paciente)
+    + void generarRecibo(Paciente paciente)
 }
 
-RECTANGLE Main {
+' Clase Main
+class Main {
+    --
     + static void main(String[] args)
+    + static void mostrarMenuPrincipal()
+    + static void menuJefeDePersonal()
+    + static void gestionarMedicos()
+    + static void gestionarEnfermeros()
+    + static void menuEnfermeros()
+    + static void menuMedicos()
+    + static void menuHospitalizacion()
+    + static int readInt()
 }
 
+' Relaciones de herencia
 Persona <|-- Paciente
 Persona <|-- Medico
 Persona <|-- Enfermero
-Paciente --> HistorialMedico
+
+' Relaciones de asociación
 Paciente --> Medico
 Paciente --> Enfermero
-Medico --> Triage
-Enfermero --> Triage
-MenuPrincipal --> Medico
-MenuPrincipal --> Enfermero
-MenuPrincipal --> Paciente
-MenuPrincipal --> AdministracionPersonal
-MenuPrincipal --> DatosPredeterminados
-Main --> MenuPrincipal
+Paciente --> HistorialMedico
+Paciente --> TratamientoMedico
+Main --> AdministracionPersonal : "Gestiona personal"
+Main --> Hospitalizacion : "Gestiona camas y pacientes"
+Hospitalizacion --> Paciente
+Triage --> Paciente
+
+' Asociación de DatosPredeterminados con otras clases
+DatosPredeterminados ..> Medico : "Proporciona datos"
+DatosPredeterminados ..> Enfermero : "Proporciona datos"
+DatosPredeterminados ..> Paciente : "Proporciona datos"
+
 @enduml
