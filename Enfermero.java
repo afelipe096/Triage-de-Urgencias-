@@ -41,37 +41,6 @@ public class Enfermero extends Persona {
         System.out.println("Turno: " + turno);
     }
 
-    // Método para registrar un nuevo paciente
-    public void registrarPaciente() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\n🩺 Enfermero " + getNombre() + " registrando un paciente...");
-        int id;
-        while (true) {
-            System.out.print("ID: ");
-            id = scanner.nextInt();
-            scanner.nextLine(); // Consumir el salto de línea
-            if (buscarPacientePorId(id) == null) {
-                break;
-            } else {
-                System.out.println("El ID ya existe. Por favor, ingrese otro ID.");
-            }
-        }
-        String nombre = Persona.solicitarNombre();
-        String telefono = Persona.solicitarTelefono();
-        String direccion = Persona.solicitarDireccion();
-        String correo = Persona.solicitarCorreo();
-
-        Paciente paciente = new Paciente(id, nombre, telefono, direccion, correo, null, null, null);
-        System.out.println("\n✅ Paciente registrado exitosamente:");
-        paciente.mostrarInfo();
-
-        // Agregar un registro al historial médico del paciente
-        paciente.getHistorial().agregarRegistro("Registrado por " + getNombre() + " (" + especialidad + ")");
-
-        // Asignar triage al paciente después de registrarlo
-        asignarTriage(paciente);
-    }
-
     // Método para asignar triage a un paciente
     public void asignarTriage(Paciente paciente) {
         Scanner scanner = new Scanner(System.in);
@@ -93,15 +62,7 @@ public class Enfermero extends Persona {
         paciente.getHistorial().agregarRegistro("Triage asignado por " + getNombre() + " (" + especialidad + ")");
     }
 
-    // Método para buscar un paciente por su ID
-    private Paciente buscarPacientePorId(int id) {
-        for (Paciente paciente : DatosPredeterminados.getPacientesRegistrados()) {
-            if (paciente.getId() == id) {
-                return paciente;
-            }
-        }
-        return null;
-    }
+
 
     // Método para actualizar la información del enfermero
     public void actualizarEnfermero() {

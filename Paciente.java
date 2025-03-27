@@ -137,4 +137,51 @@ public class Paciente extends Persona {
         DatosPredeterminados.actualizarPaciente(this);
         System.out.println("Paciente actualizado exitosamente.");
     }
+
+    // Método para registrar un nuevo paciente
+    public static void registrarPaciente() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\n--- Registrar Paciente ---");
+
+        // Obtener la lista de pacientes registrados
+        List<Paciente> pacientesRegistrados = DatosPredeterminados.getPacientesRegistrados();
+        if (pacientesRegistrados == null) {
+            System.out.println("Error: La lista de pacientes no está inicializada.");
+            return;
+        }
+
+        int id;
+        while (true) {
+            System.out.print("ID: ");
+            id = scanner.nextInt();
+            scanner.nextLine(); // Consumir el salto de línea
+            // Verificar si el ID ya existe en la lista de pacientes registrados
+            boolean idExiste = false;
+            for (Paciente paciente : pacientesRegistrados) {
+                if (paciente.getId() == id) {
+                    idExiste = true;
+                    break;
+                }
+            }
+            if (!idExiste) {
+                break;
+            } else {
+                System.out.println("El ID ya existe. Por favor, ingrese otro ID.");
+            }
+        }
+
+        // Solicitar los datos del paciente
+        String nombre = Persona.solicitarNombre();
+        String telefono = Persona.solicitarTelefono();
+        String direccion = Persona.solicitarDireccion();
+        String correo = Persona.solicitarCorreo();
+
+        // Crear un nuevo paciente y agregarlo a la lista de pacientes registrados
+        Paciente paciente = new Paciente(id, nombre, telefono, direccion, correo, null, null, null);
+        pacientesRegistrados.add(paciente);
+
+        // Confirmar el registro del paciente
+        System.out.println("\n✅ Paciente registrado exitosamente:");
+        paciente.mostrarInfo();
+    }
 }

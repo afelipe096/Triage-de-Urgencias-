@@ -75,7 +75,7 @@ public class MenuPrincipal {
             int opcion = scanner.nextInt();
             switch (opcion) {
                 case 1:
-                    enfermero.registrarPaciente();
+                    Paciente.registrarPaciente(); // Actualizado para usar el método de la clase Paciente
                     break;
                 case 2:
                     System.out.print("Ingrese el ID del paciente: ");
@@ -85,7 +85,7 @@ public class MenuPrincipal {
                         enfermero.asignarTriage(paciente);
                     } else {
                         System.out.println("Paciente no encontrado. Registrando nuevo paciente...");
-                        enfermero.registrarPaciente();
+                        Paciente.registrarPaciente(); // Actualizado
                     }
                     break;
                 case 3:
