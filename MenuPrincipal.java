@@ -145,7 +145,7 @@ public class MenuPrincipal {
                         medico.atenderPaciente(paciente);
                     } else {
                         System.out.println("Paciente no encontrado. Registrando nuevo paciente...");
-                        registrarPaciente();
+                        Paciente.registrarPaciente(); // Actualizado para usar el método de la clase Paciente
                     }
                     break;
                 case 2:
@@ -321,13 +321,7 @@ public class MenuPrincipal {
         return null;
     }
 
-    /**
-     * Registra un nuevo paciente.
-     */
-    private static void registrarPaciente() {
-        Enfermero enfermero = new Enfermero(0, "", "", "", "", "", ""); // Crear un objeto Enfermero temporal
-        enfermero.registrarPaciente();
-    }
+
 
     /**
      * Actualiza la información de un paciente existente.
