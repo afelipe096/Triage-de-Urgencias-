@@ -67,4 +67,78 @@ public class Medico extends Persona {
         System.out.println("\n Historial Clínico Actualizado:");
         System.out.println(paciente.getHistorial().obtenerHistorial());
     }
+
+    // Método para actualizar la información del médico
+    public void actualizarMedico() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\n--- Actualizar Médico ---");
+        System.out.print("Nombre: ");
+        String nombre = scanner.nextLine();
+        System.out.print("Teléfono: ");
+        String telefono = scanner.nextLine();
+        System.out.print("Dirección: ");
+        String direccion = scanner.nextLine();
+        System.out.print("Correo: ");
+        String correo = scanner.nextLine();
+        System.out.print("Especialidad: ");
+        String especialidad = scanner.nextLine();
+        setNombre(nombre);
+        setTelefono(telefono);
+        setDireccion(direccion);
+        setCorreo(correo);
+        setEspecialidad(especialidad);
+        AdministracionPersonal.actualizarMedico(this);
+        System.out.println("Médico actualizado exitosamente.");
+    }
+
+    // Método para registrar un nuevo médico
+    public static void registrarMedico() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\n--- Registrar Médico ---");
+        int id;
+        while (true) {
+            System.out.print("ID: ");
+            id = scanner.nextInt();
+            scanner.nextLine(); // Consumir el salto de línea
+            if (buscarMedicoPorId(id) == null) {
+                break;
+            } else {
+                System.out.println("El ID ya existe. Por favor, ingrese otro ID.");
+            }
+        }
+        String nombre = Persona.solicitarNombre();
+        String telefono = Persona.solicitarTelefono();
+        String direccion = Persona.solicitarDireccion();
+        String correo = Persona.solicitarCorreo();
+        System.out.print("Especialidad: ");
+        String especialidad = scanner.nextLine();
+        Medico medico = new Medico(id, nombre, telefono, direccion, correo, especialidad);
+        AdministracionPersonal.registrarMedico(medico);
+        System.out.println("Médico registrado exitosamente.");
+    }
+
+    // Método para eliminar un médico existente
+    public static void eliminarMedico() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\n--- Eliminar Médico ---");
+        System.out.print("ID del Médico: ");
+        int id = scanner.nextInt();
+        Medico medico = buscarMedicoPorId(id);
+        if (medico != null) {
+            AdministracionPersonal.eliminarMedico(medico);
+            System.out.println("Médico eliminado exitosamente.");
+        } else {
+            System.out.println("Médico no encontrado.");
+        }
+    }
+
+    // Método para buscar un médico por su ID
+    private static Medico buscarMedicoPorId(int id) {
+        for (Medico medico : AdministracionPersonal.getMedicosRegistrados()) {
+            if (medico.getId() == id) {
+                return medico;
+            }
+        }
+        return null;
+    }
 }

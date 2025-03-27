@@ -93,7 +93,7 @@ public class MenuPrincipal {
                     int pacienteIdActualizar = scanner.nextInt();
                     Paciente pacienteActualizar = buscarPacientePorId(pacienteIdActualizar);
                     if (pacienteActualizar != null) {
-                        actualizarPaciente(pacienteActualizar);
+                        actualizarPaciente(pacienteActualizar); // Corregido: Se pasa el paciente encontrado
                     } else {
                         System.out.println("Paciente no encontrado.");
                     }
@@ -182,22 +182,36 @@ public class MenuPrincipal {
         int opcion = scanner.nextInt();
         switch (opcion) {
             case 1:
-                registrarMedico();
+                Medico.registrarMedico();
                 break;
             case 2:
-                eliminarMedico();
+                Medico.eliminarMedico();
                 break;
             case 3:
-                actualizarMedico();
+                System.out.print("Ingrese el ID del médico a actualizar: ");
+                int medicoIdActualizar = scanner.nextInt();
+                Medico medicoActualizar = buscarMedicoPorId(medicoIdActualizar);
+                if (medicoActualizar != null) {
+                    medicoActualizar.actualizarMedico();
+                } else {
+                    System.out.println("Médico no encontrado.");
+                }
                 break;
             case 4:
-                registrarEnfermero();
+                Enfermero.registrarEnfermero();
                 break;
             case 5:
-                eliminarEnfermero();
+                Enfermero.eliminarEnfermero();
                 break;
             case 6:
-                actualizarEnfermero();
+                System.out.print("Ingrese el ID del enfermero a actualizar: ");
+                int enfermeroIdActualizar = scanner.nextInt();
+                Enfermero enfermeroActualizar = buscarEnfermeroPorId(enfermeroIdActualizar);
+                if (enfermeroActualizar != null) {
+                    enfermeroActualizar.actualizarEnfermero();
+                } else {
+                    System.out.println("Enfermero no encontrado.");
+                }
                 break;
             default:
                 System.out.println("Opción no válida.");
@@ -266,175 +280,6 @@ public class MenuPrincipal {
     }
 
     /**
-     * Registra un nuevo médico.
-     */
-    private static void registrarMedico() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\n--- Registrar Médico ---");
-        int id;
-        while (true) {
-            System.out.print("ID: ");
-            id = scanner.nextInt();
-            scanner.nextLine(); // Consumir el salto de línea
-            if (buscarMedicoPorId(id) == null) {
-                break;
-            } else {
-                System.out.println("El ID ya existe. Por favor, ingrese otro ID.");
-            }
-        }
-        System.out.print("Nombre: ");
-        String nombre = scanner.nextLine();
-        System.out.print("Teléfono: ");
-        String telefono = scanner.nextLine();
-        System.out.print("Dirección: ");
-        String direccion = scanner.nextLine();
-        System.out.print("Correo: ");
-        String correo = scanner.nextLine();
-        System.out.print("Especialidad: ");
-        String especialidad = scanner.nextLine();
-        Medico medico = new Medico(id, nombre, telefono, direccion, correo, especialidad);
-        AdministracionPersonal.registrarMedico(medico);
-        System.out.println("Médico registrado exitosamente.");
-    }
-
-    /**
-     * Elimina un médico existente.
-     */
-    private static void eliminarMedico() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\n--- Eliminar Médico ---");
-        System.out.print("ID del Médico: ");
-        int id = scanner.nextInt();
-        Medico medico = buscarMedicoPorId(id);
-        if (medico != null) {
-            AdministracionPersonal.eliminarMedico(medico);
-            System.out.println("Médico eliminado exitosamente.");
-        } else {
-            System.out.println("Médico no encontrado.");
-        }
-    }
-
-    /**
-     * Actualiza la información de un médico existente.
-     */
-    private static void actualizarMedico() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\n--- Actualizar Médico ---");
-        System.out.print("ID del Médico: ");
-        int id = scanner.nextInt();
-        scanner.nextLine(); // Consumir el salto de línea
-        Medico medico = buscarMedicoPorId(id);
-        if (medico != null) {
-            System.out.print("Nombre: ");
-            String nombre = scanner.nextLine();
-            System.out.print("Teléfono: ");
-            String telefono = scanner.nextLine();
-            System.out.print("Dirección: ");
-            String direccion = scanner.nextLine();
-            System.out.print("Correo: ");
-            String correo = scanner.nextLine();
-            System.out.print("Especialidad: ");
-            String especialidad = scanner.nextLine();
-            medico.setNombre(nombre);
-            medico.setTelefono(telefono);
-            medico.setDireccion(direccion);
-            medico.setCorreo(correo);
-            medico.setEspecialidad(especialidad);
-            AdministracionPersonal.actualizarMedico(medico);
-            System.out.println("Médico actualizado exitosamente.");
-        } else {
-            System.out.println("Médico no encontrado.");
-        }
-    }
-
-    /**
-     * Registra un nuevo enfermero.
-     */
-    private static void registrarEnfermero() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\n--- Registrar Enfermero ---");
-        int id;
-        while (true) {
-            System.out.print("ID: ");
-            id = scanner.nextInt();
-            scanner.nextLine(); // Consumir el salto de línea
-            if (buscarEnfermeroPorId(id) == null) {
-                break;
-            } else {
-                System.out.println("El ID ya existe. Por favor, ingrese otro ID.");
-            }
-        }
-        System.out.print("Nombre: ");
-        String nombre = scanner.nextLine();
-        System.out.print("Teléfono: ");
-        String telefono = scanner.nextLine();
-        System.out.print("Dirección: ");
-        String direccion = scanner.nextLine();
-        System.out.print("Correo: ");
-        String correo = scanner.nextLine();
-        System.out.print("Especialidad: ");
-        String especialidad = scanner.nextLine();
-        System.out.print("Turno: ");
-        String turno = scanner.nextLine();
-        Enfermero enfermero = new Enfermero(id, nombre, telefono, direccion, correo, especialidad, turno);
-        AdministracionPersonal.registrarEnfermero(enfermero);
-        System.out.println("Enfermero registrado exitosamente.");
-    }
-
-    /**
-     * Elimina un enfermero existente.
-     */
-    private static void eliminarEnfermero() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\n--- Eliminar Enfermero ---");
-        System.out.print("ID del Enfermero: ");
-        int id = scanner.nextInt();
-        Enfermero enfermero = buscarEnfermeroPorId(id);
-        if (enfermero != null) {
-            AdministracionPersonal.eliminarEnfermero(enfermero);
-            System.out.println("Enfermero eliminado exitosamente.");
-        } else {
-            System.out.println("Enfermero no encontrado.");
-        }
-    }
-
-    /**
-     * Actualiza la información de un enfermero existente.
-     */
-    private static void actualizarEnfermero() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\n--- Actualizar Enfermero ---");
-        System.out.print("ID del Enfermero: ");
-        int id = scanner.nextInt();
-        scanner.nextLine(); // Consumir el salto de línea
-        Enfermero enfermero = buscarEnfermeroPorId(id);
-        if (enfermero != null) {
-            System.out.print("Nombre: ");
-            String nombre = scanner.nextLine();
-            System.out.print("Teléfono: ");
-            String telefono = scanner.nextLine();
-            System.out.print("Dirección: ");
-            String direccion = scanner.nextLine();
-            System.out.print("Correo: ");
-            String correo = scanner.nextLine();
-            System.out.print("Especialidad: ");
-            String especialidad = scanner.nextLine();
-            System.out.print("Turno: ");
-            String turno = scanner.nextLine();
-            enfermero.setNombre(nombre);
-            enfermero.setTelefono(telefono);
-            enfermero.setDireccion(direccion);
-            enfermero.setCorreo(correo);
-            enfermero.setEspecialidad(especialidad);
-            enfermero.setTurno(turno);
-            AdministracionPersonal.actualizarEnfermero(enfermero);
-            System.out.println("Enfermero actualizado exitosamente.");
-        } else {
-            System.out.println("Enfermero no encontrado.");
-        }
-    }
-
-    /**
      * Busca un médico por su ID.
      * @param id El ID del médico.
      * @return El médico encontrado o null si no se encuentra.
@@ -489,22 +334,7 @@ public class MenuPrincipal {
      * @param paciente El paciente a actualizar.
      */
     private static void actualizarPaciente(Paciente paciente) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\n--- Actualizar Paciente ---");
-        System.out.print("Nombre: ");
-        String nombre = scanner.nextLine();
-        System.out.print("Teléfono: ");
-        String telefono = scanner.nextLine();
-        System.out.print("Dirección: ");
-        String direccion = scanner.nextLine();
-        System.out.print("Correo: ");
-        String correo = scanner.nextLine();
-        paciente.setNombre(nombre);
-        paciente.setTelefono(telefono);
-        paciente.setDireccion(direccion);
-        paciente.setCorreo(correo);
-        DatosPredeterminados.actualizarPaciente(paciente);
-        System.out.println("Paciente actualizado exitosamente.");
+        paciente.actualizarPaciente();
     }
 
     /**

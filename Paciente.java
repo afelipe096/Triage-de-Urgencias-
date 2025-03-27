@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Esta clase representa a un paciente y contiene métodos para manejar las operaciones relacionadas con los pacientes.
@@ -116,6 +117,24 @@ public class Paciente extends Persona {
         System.out.println("📝 Historial Médico:");
         System.out.println(historial.obtenerHistorial());
     }
-    
-    
+
+    // Método para actualizar la información del paciente
+    public void actualizarPaciente() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\n--- Actualizar Paciente ---");
+        System.out.print("Nombre: ");
+        String nombre = scanner.nextLine();
+        System.out.print("Teléfono: ");
+        String telefono = scanner.nextLine();
+        System.out.print("Dirección: ");
+        String direccion = scanner.nextLine();
+        System.out.print("Correo: ");
+        String correo = scanner.nextLine();
+        setNombre(nombre);
+        setTelefono(telefono);
+        setDireccion(direccion);
+        setCorreo(correo);
+        DatosPredeterminados.actualizarPaciente(this);
+        System.out.println("Paciente actualizado exitosamente.");
+    }
 }

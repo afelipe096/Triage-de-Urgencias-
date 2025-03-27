@@ -103,6 +103,82 @@ public class Enfermero extends Persona {
         return null;
     }
 
-    public void getRegistrarPaciente() {
+    // Método para actualizar la información del enfermero
+    public void actualizarEnfermero() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\n--- Actualizar Enfermero ---");
+        System.out.print("Nombre: ");
+        String nombre = scanner.nextLine();
+        System.out.print("Teléfono: ");
+        String telefono = scanner.nextLine();
+        System.out.print("Dirección: ");
+        String direccion = scanner.nextLine();
+        System.out.print("Correo: ");
+        String correo = scanner.nextLine();
+        System.out.print("Especialidad: ");
+        String especialidad = scanner.nextLine();
+        System.out.print("Turno: ");
+        String turno = scanner.nextLine();
+        setNombre(nombre);
+        setTelefono(telefono);
+        setDireccion(direccion);
+        setCorreo(correo);
+        setEspecialidad(especialidad);
+        setTurno(turno);
+        AdministracionPersonal.actualizarEnfermero(this);
+        System.out.println("Enfermero actualizado exitosamente.");
+    }
+
+    // Método para registrar un nuevo enfermero
+    public static void registrarEnfermero() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\n--- Registrar Enfermero ---");
+        int id;
+        while (true) {
+            System.out.print("ID: ");
+            id = scanner.nextInt();
+            scanner.nextLine(); // Consumir el salto de línea
+            if (buscarEnfermeroPorId(id) == null) {
+                break;
+            } else {
+                System.out.println("El ID ya existe. Por favor, ingrese otro ID.");
+            }
+        }
+        String nombre = Persona.solicitarNombre();
+        String telefono = Persona.solicitarTelefono();
+        String direccion = Persona.solicitarDireccion();
+        String correo = Persona.solicitarCorreo();
+        System.out.print("Especialidad: ");
+        String especialidad = scanner.nextLine();
+        System.out.print("Turno: ");
+        String turno = scanner.nextLine();
+        Enfermero enfermero = new Enfermero(id, nombre, telefono, direccion, correo, especialidad, turno);
+        AdministracionPersonal.registrarEnfermero(enfermero);
+        System.out.println("Enfermero registrado exitosamente.");
+    }
+
+    // Método para eliminar un enfermero existente
+    public static void eliminarEnfermero() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\n--- Eliminar Enfermero ---");
+        System.out.print("ID del Enfermero: ");
+        int id = scanner.nextInt();
+        Enfermero enfermero = buscarEnfermeroPorId(id);
+        if (enfermero != null) {
+            AdministracionPersonal.eliminarEnfermero(enfermero);
+            System.out.println("Enfermero eliminado exitosamente.");
+        } else {
+            System.out.println("Enfermero no encontrado.");
+        }
+    }
+
+    // Método para buscar un enfermero por su ID
+    public static Enfermero buscarEnfermeroPorId(int id) {
+        for (Enfermero enfermero : AdministracionPersonal.getEnfermerosRegistrados()) { // Cambiado a AdministracionPersonal
+            if (enfermero.getId() == id) {
+                return enfermero;
+            }
+        }
+        return null;
     }
 }

@@ -55,6 +55,10 @@ public class AdministracionPersonal {
 
     // Método para obtener la lista de enfermeros registrados
     public static List<Enfermero> getEnfermerosRegistrados() {
+        // Verificar si la lista está inicializada
+        if (enfermerosRegistrados == null) {
+            enfermerosRegistrados = new ArrayList<>();
+        }
         return enfermerosRegistrados;
     }
 }
